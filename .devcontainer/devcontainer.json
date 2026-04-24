@@ -1,9 +1,7 @@
 {
   "name": "mise",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-  "features": {
-    "ghcr.io/devcontainers-extra/features/mise:1": {}
-  },
+  "postCreateCommand": "curl https://mise.run | sh && echo 'eval \"$(mise activate bash)\"' >> ~/.bashrc && mise trust && mise install",
   "customizations": {
     "vscode": {
       "extensions": [
