@@ -1,10 +1,41 @@
 <!DOCTYPE html>
 <html>
   <body>
+    <canvas id="c" width="900" height="700" style="border: solid black 1px;"></canvas>
     <script type="module">
-      import { hello } from '../src/index.ts'
+      import { initialize } from '../src/index.ts'
+      // import { initialize } from '../dist/index.js'
 
-      hello()
+      let inputData = {
+        nodes: [
+          {
+            text: "test text",
+            backgroundColor: "blue",
+            borderColor: "red",
+            width: 100,
+            height: 100,
+            x: 50,
+            y: 50,
+            data: {
+              nodeName: "node name 1"
+            }
+          },
+          {
+            text: "test text 2",
+            backgroundColor: "yellow",
+            borderColor: "green",
+            width: 150,
+            height: 150,
+            x: 200,
+            y: 200,
+            data: {
+              nodeName: "node name 2"
+            }
+          }
+        ]
+      }
+
+      initialize('c', inputData)
     </script>
   </body>
 </html>
