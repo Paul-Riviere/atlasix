@@ -6,14 +6,28 @@ let isPanning = false;
 
 export function initialize(atlasixContainerId: string, inputData: any) {
   let atlasixContainer = document.getElementById(atlasixContainerId);
+  atlasixContainer.style.position = "relative";
   
   let atlasixContainerCanvas = document.createElement("canvas");
 
   atlasixContainerCanvas.width = 900;
   atlasixContainerCanvas.height = 700;
   atlasixContainerCanvas.style.border = "solid black 1px";
-  
+
+  let atlasixContainerSidebar = document.createElement("div");
+  atlasixContainerSidebar.style.position = "absolute";
+  atlasixContainerSidebar.style.top = "1px";
+  atlasixContainerSidebar.style.left = "1px";
+  atlasixContainerSidebar.style.width = "200px";
+  atlasixContainerSidebar.style.height = "stretch";
+  atlasixContainerSidebar.style.backgroundColor = "white";
+  atlasixContainerSidebar.style.borderRight = "solid lightgrey 1px";
+  atlasixContainerSidebar.style.visibility = "hidden";
+  atlasixContainerSidebar.style.padding = "10px";
+  atlasixContainerSidebar.style.backgroundColor = "aliceblue";
+
   atlasixContainer?.append(atlasixContainerCanvas);
+  atlasixContainer?.append(atlasixContainerSidebar);
 
   const canvas = new Canvas(atlasixContainerCanvas, {
       defaultCursor: "grab",
@@ -44,7 +58,7 @@ export function initialize(atlasixContainerId: string, inputData: any) {
   const allObjects = canvas.getObjects();
 
   allObjects.forEach((object) => {
-    object.on("selected", (e) => objectOnSelected(e, canvas));
+    object.on("selected", (e) => objectOnSelected(e, canvas, atlasixContainerSidebar));
     object.hasControls = false;
     object.lockMovementX = true;
     object.lockMovementY = true;
@@ -55,7 +69,7 @@ export function initialize(atlasixContainerId: string, inputData: any) {
   canvas.on("mouse:move", (e) => canvasOnMouseMove(e, canvas));
   canvas.on("mouse:wheel", (e) => canvasOnMouseWheel(e, canvas));
 
-  canvas.on("selection:cleared", canvasOnSelectionCleared);
+  canvas.on("selection:cleared", (e) => canvasOnSelectionCleared(e, atlasixContainerSidebar));
 }
 
 function canvasOnMouseDown(e) {
@@ -81,9 +95,14 @@ function canvasOnMouseMove(e: TPointerEventInfo<TPointerEvent>, canvas: Canvas) 
   }
 }
 
-function objectOnSelected(e: Partial<TEvent<TPointerEvent>>, canvas: Canvas) {
+function objectOnSelected(e: Partial<TEvent<TPointerEvent>>, canvas: Canvas, sidebar: HTMLDivElement) {
   let selectedNode = canvas.get("nodesData")[canvas.getActiveObject().id]
-  console.log(selectedNode);
+  
+  sidebar.innerHTML = "";
+  for (const key of Object.keys(selectedNode)) {
+    sidebar.innerHTML += `<strong>${key}:</strong> ${selectedNode[key]}<br>`;
+  }
+  sidebar.style.visibility = "visible";
 }
 
 function canvasOnMouseWheel(e: TPointerEventInfo<TPointerEvent>, canvas: Canvas) {
@@ -92,5 +111,6 @@ function canvasOnMouseWheel(e: TPointerEventInfo<TPointerEvent>, canvas: Canvas)
   e.e.stopPropagation();
 }
 
-function canvasOnSelectionCleared(e) {
+function canvasOnSelectionCleared(e, sidebar: HTMLDivElement) {
+  sidebar.style.visibility = "hidden";
 }
