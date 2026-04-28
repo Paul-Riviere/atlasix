@@ -1,0 +1,33 @@
+{
+  "name": "atlasix",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/Paul-Riviere/atlasix#readme",
+  "bugs": {
+    "url": "https://github.com/Paul-Riviere/atlasix/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Paul-Riviere/atlasix.git"
+  },
+  "license": "MIT",
+  "author": "Paul Riviere",
+  "type": "module",
+  "module": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "fabric": "^7.3.1",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.10"
+  }
+}

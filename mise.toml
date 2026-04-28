@@ -1,0 +1,10 @@
+[tools]
+node = "25"
+
+[settings]
+experimental = true
+
+[hooks]
+enter = """
+npm install
+"""
