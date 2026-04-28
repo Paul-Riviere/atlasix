@@ -4,10 +4,21 @@ let lastMouse = { x: 0, y: 0 };
 
 let isPanning = false;
 
-export function initialize(canvasId: string, inputData: any) {
-  const canvas = new Canvas(canvasId, {
+export function initialize(atlasixContainerId: string, inputData: any) {
+  let atlasixContainer = document.getElementById(atlasixContainerId);
+  
+  let atlasixContainerCanvas = document.createElement("canvas");
+
+  atlasixContainerCanvas.width = 900;
+  atlasixContainerCanvas.height = 700;
+  atlasixContainerCanvas.style.border = "solid black 1px";
+  
+  atlasixContainer?.append(atlasixContainerCanvas);
+
+  const canvas = new Canvas(atlasixContainerCanvas, {
       defaultCursor: "grab",
-      hoverCursor: "pointer"
+      hoverCursor: "pointer",
+      selection: false
   });
 
   let tmpNodeData: any[] = [];
