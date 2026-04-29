@@ -13,6 +13,8 @@ export function canvasOnMouseUp(atlasixDiagram: AtlasixDiagram) {
 
 export function canvasOnMouseMove(e: TPointerEventInfo<TPointerEvent>, atlasixDiagram: AtlasixDiagram) {
   if (atlasixDiagram.isPanning) {
+    atlasixDiagram.canvas.setCursor("grabbing");
+    
     let tmpViewPortTransform = atlasixDiagram.canvas.viewportTransform;
     tmpViewPortTransform[4] += e.e.clientX - atlasixDiagram.lastMouse.x;
     tmpViewPortTransform[5] += e.e.clientY - atlasixDiagram.lastMouse.y;
