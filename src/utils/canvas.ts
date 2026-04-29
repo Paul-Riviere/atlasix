@@ -1,4 +1,4 @@
-import { Canvas, Rect, Textbox } from "fabric";
+import { Canvas, Rect, Triangle, Circle, Textbox } from "fabric";
 import { AtlasixDiagram } from "../AtlasixDiagram";
 
 export function createCanvas() {
@@ -26,18 +26,34 @@ export function createNodesAndSetNodesData(inputData: any[], onSelectedCallback:
   let nodesData: any[] = [];
 
   for (let [id, node] of inputData.nodes.entries()) {
-    let tmpNode = new Rect({
-      backgroundColor: node.backgroundColor,
+    const nodeOptions = {
+      fill: node.fillColor,
       borderColor: node.borderColor,
       borderScaleFactor: 2,
-      fill: null,
       height: node.height,
       width: node.width,
       left: node.x,
       top: node.y
-    });
+    }
+
+    let tmpNode;
+
+    switch (node.shape) {
+      case "rectangle":
+        tmpNode = new Rect(nodeOptions);
+        break;
+      case "triangle":
+        tmpNode = new Triangle(nodeOptions);
+        break;
+      case "circle":
+        tmpNode = new Circle(nodeOptions);
+        tmpNode.set("radius", node.width / 2);
+        break;
+    }
+
     tmpNode.set("id", id);
     nodesData[id.toString()] = node.data;
+    console.log(tmpNode);
     atlasixDiagram.canvas.add(tmpNode);
 
     if (node.text) {
