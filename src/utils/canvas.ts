@@ -1,4 +1,4 @@
-import { Canvas, Rect } from "fabric";
+import { Canvas, Rect, Textbox } from "fabric";
 import { AtlasixDiagram } from "../AtlasixDiagram";
 
 export function createCanvas() {
@@ -38,6 +38,20 @@ export function createNodesAndSetNodesData(inputData: any[], onSelectedCallback:
     tmpNode.set("id", id);
     nodesData[id.toString()] = node.data;
     atlasixDiagram.canvas.add(tmpNode);
+
+    if (node.text) {
+      let tmpTextbox = new Textbox(node.text, {
+        left: node.x,
+        top: node.y + node.height / 2 + 20,
+        width: node.width + 40,
+        fill: node.textColor ? node.textColor : "black",
+        fontSize: node.textSize ? node.textSize : 25,
+        textAlign: 'center',
+        selectable: false,
+        hoverCursor: "grab"
+      });
+      atlasixDiagram.canvas.add(tmpTextbox);
+    }
   }
   
   atlasixDiagram.canvas.getObjects().forEach((object) => {
