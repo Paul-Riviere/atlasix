@@ -1,5 +1,4 @@
-import { Canvas, Rect, TPointerEvent, TPointerEventInfo, TEvent } from 'fabric';
-import { createCanvas, createFabricCanvas } from "./utils/canvas";
+import { createCanvas, createFabricCanvas, createNodesAndSetNodesData } from "./utils/canvas";
 import { createSidebar } from "./utils/sidebar";
 import { AtlasixDiagram } from "./AtlasixDiagram";
 import { canvasOnMouseDown, canvasOnMouseUp, canvasOnMouseMove, objectOnSelected, canvasOnMouseWheel, canvasOnSelectionCleared } from "./events";
@@ -16,35 +15,9 @@ export function initialize(atlasixContainerId: string, inputData: any) {
 
   const canvas = createFabricCanvas(atlasixContainerCanvas);
 
-  let nodesData: any[] = [];
+  let atlasixDiagram = new AtlasixDiagram(canvas, atlasixContainer, atlasixContainerSidebar);
 
-  for (let [id, node] of inputData.nodes.entries()) {
-    let tmpNode = new Rect({
-      backgroundColor: node.backgroundColor,
-      borderColor: node.borderColor,
-      borderScaleFactor: 2,
-      fill: null,
-      height: node.height,
-      width: node.width,
-      left: node.x,
-      top: node.y
-    });
-    tmpNode.set("id", id);
-    nodesData[id.toString()] = node.data;
-    canvas.add(tmpNode);
-  }
-
-  let atlasixDiagram = new AtlasixDiagram(canvas, nodesData, atlasixContainer, atlasixContainerSidebar);
-  
-  const allObjects = canvas.getObjects(); 
-
-  allObjects.forEach((object) => {
-    object.on("selected", (e) => objectOnSelected(e, atlasixDiagram));
-    object.hasControls = false;
-    object.lockMovementX = true;
-    object.lockMovementY = true;
-  });
-
+  createNodesAndSetNodesData(inputData, objectOnSelected, atlasixDiagram);
 
   canvas.on("mouse:down", (e) => canvasOnMouseDown(e, atlasixDiagram));
   canvas.on("mouse:up", (e) => canvasOnMouseUp(atlasixDiagram));

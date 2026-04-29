@@ -2,7 +2,7 @@ import { Canvas } from "fabric";
 
 export class AtlasixDiagram {
   canvas: Canvas;
-  nodesData: any;
+  nodesData: any = [];
   container: HTMLDivElement;
   sidebar: HTMLDivElement;
 
@@ -11,12 +11,10 @@ export class AtlasixDiagram {
 
   constructor(
     canvas: Canvas,
-    nodesData: any,
     container: HTMLDivElement,
     sidebar: HTMLDivElement
   ) {
     this.canvas = canvas;
-    this.nodesData = nodesData;
     this.container = container;
     this.sidebar = sidebar;
   }
