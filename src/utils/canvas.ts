@@ -11,11 +11,12 @@ export function createCanvas() {
   return canvas;
 }
 
-export function createFabricCanvas(canvas: HTMLCanvasElement) {
+export function createFabricCanvas(canvas: HTMLCanvasElement, inputData: any) {
   const fabricCanvas = new Canvas(canvas, {
     defaultCursor: "grab",
     hoverCursor: "pointer",
-    selection: false
+    selection: false,
+    backgroundColor: inputData.backgroundColor ? inputData.backgroundColor : "white",
   });
 
   return fabricCanvas;

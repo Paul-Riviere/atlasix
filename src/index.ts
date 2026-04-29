@@ -13,7 +13,7 @@ export function initialize(atlasixContainerId: string, inputData: any) {
   atlasixContainer.append(atlasixContainerCanvas);
   atlasixContainer.append(atlasixContainerSidebar);
 
-  const canvas = createFabricCanvas(atlasixContainerCanvas);
+  const canvas = createFabricCanvas(atlasixContainerCanvas, inputData);
 
   let atlasixDiagram = new AtlasixDiagram(canvas, atlasixContainer, atlasixContainerSidebar);
 
