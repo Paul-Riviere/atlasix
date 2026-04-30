@@ -10,6 +10,7 @@
         backgroundColor: "#fdf5d8",
         nodes: [
           {
+            id: "node1",
             text: "test text",
             textColor: "blue",
             textSize: "15",
@@ -26,6 +27,7 @@
             }
           },
           {
+            id: "node2",
             text: "test text 2",
             fillColor: "yellow",
             borderColor: "green",
@@ -39,6 +41,7 @@
             }
           },
           {
+            id: "node3",
             text: "test text 3 circle",
             fillColor: "pink",
             borderColor: "white",
@@ -49,6 +52,29 @@
             y: 120,
             data: {
               nodeName: "node name 3"
+            }
+          }
+        ],
+        edges: [
+          {
+            source: "node2",
+            target: "node3",
+            color: "orange",
+            width: 3,
+            borderColor: "purple",
+            data: {
+              edgeName: "edge name 1"
+            }
+          },
+          {
+            source: "node1",
+            target: "node3",
+            color: "black",
+            width: 3,
+            borderColor: "black",
+            data: {
+              mySuperDataEdge: "edge data value",
+              "My awesome key": "my awesome value"
             }
           }
         ]
