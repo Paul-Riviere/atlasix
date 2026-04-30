@@ -1,5 +1,6 @@
 import {AtlasixDiagram} from "./AtlasixDiagram";
 import {TPointerEvent, TPointerEventInfo, TEvent} from "fabric";
+import { AtlasixObject } from "./AtlasixObject";
 
 export function canvasOnMouseDown(e, atlasixDiagram: AtlasixDiagram) {
   atlasixDiagram.isPanning = true;
@@ -26,12 +27,12 @@ export function canvasOnMouseMove(e: TPointerEventInfo<TPointerEvent>, atlasixDi
   }
 }
 
-export function objectOnSelected(e: Partial<TEvent<TPointerEvent>>, atlasixDiagram: AtlasixDiagram) {
-  let selectedNode = atlasixDiagram.nodesData[atlasixDiagram.canvas.getActiveObject().id]
+export function objectOnSelected(e: Partial<TEvent<TPointerEvent>>, atlasixDiagram: AtlasixDiagram) {  
+  let selectedObject = atlasixDiagram.canvas.getActiveObject() as AtlasixObject
   
   atlasixDiagram.sidebar.innerHTML = "";
-  for (const key of Object.keys(selectedNode)) {
-    atlasixDiagram.sidebar.innerHTML += `<strong>${key}:</strong> ${selectedNode[key]}<br>`;
+  for (const key of Object.keys(selectedObject.data)) {
+    atlasixDiagram.sidebar.innerHTML += `<strong>${key}:</strong> ${selectedObject.data[key]}<br>`;
   }
 
   atlasixDiagram.sidebar.style.visibility = "visible";

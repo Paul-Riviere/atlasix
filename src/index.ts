@@ -1,4 +1,4 @@
-import { createCanvas, createFabricCanvas, createNodesAndSetNodesData } from "./utils/canvas";
+import { createCanvas, createFabricCanvas, createNodesAndSetNodesData, createEdgesAndSetEdgesData } from "./utils/canvas";
 import { createSidebar } from "./utils/sidebar";
 import { AtlasixDiagram } from "./AtlasixDiagram";
 import { canvasOnMouseDown, canvasOnMouseUp, canvasOnMouseMove, objectOnSelected, canvasOnMouseWheel, canvasOnSelectionCleared } from "./events";
@@ -18,6 +18,7 @@ export function initialize(atlasixContainerId: string, inputData: any) {
   let atlasixDiagram = new AtlasixDiagram(canvas, atlasixContainer, atlasixContainerSidebar);
 
   createNodesAndSetNodesData(inputData, objectOnSelected, atlasixDiagram);
+  createEdgesAndSetEdgesData(inputData, objectOnSelected, atlasixDiagram);
 
   canvas.on("mouse:down", (e) => canvasOnMouseDown(e, atlasixDiagram));
   canvas.on("mouse:up", (e) => canvasOnMouseUp(atlasixDiagram));

@@ -2,7 +2,6 @@ import { Canvas } from "fabric";
 
 export class AtlasixDiagram {
   canvas: Canvas;
-  nodesData: any = [];
   container: HTMLDivElement;
   sidebar: HTMLDivElement;
 
