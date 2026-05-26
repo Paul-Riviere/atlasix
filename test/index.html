@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
   <body>
-    <div id="atlasixDiv"></div>
+    <div id="atlasixDiv">
+      <img src="test.png" id="test-img" style="display: none;">
+    </div>
     <script type="module">
       import { initialize } from '../src/index.ts'
       // import { initialize } from '../dist/index.js'
@@ -53,6 +55,18 @@
             data: {
               nodeName: "node name 3"
             }
+          },
+          {
+            id: "node-image-1",
+            text: "test node 1 with image",
+            image: "idefix.png",
+            width: 170,
+            height: 170,
+            x: 730,
+            y: 120,
+            data: {
+              nodeName: "node-image-1 name"
+            }
           }
         ],
         edges: [
@@ -69,6 +83,17 @@
           {
             source: "node1",
             target: "node3",
+            color: "black",
+            width: 3,
+            borderColor: "black",
+            data: {
+              mySuperDataEdge: "edge data value",
+              "My awesome key": "my awesome value"
+            }
+          },
+          {
+            source: "node3",
+            target: "node-image-1",
             color: "black",
             width: 3,
             borderColor: "black",

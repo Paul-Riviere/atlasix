@@ -1,4 +1,4 @@
-import { Canvas, Rect, Triangle, Circle, Textbox, Polyline, FabricObject } from "fabric";
+import { Canvas, Rect, Triangle, Circle, Textbox, Polyline, FabricObject, FabricImage } from "fabric";
 import { AtlasixDiagram } from "../AtlasixDiagram";
 
 export function createCanvas() {
@@ -38,26 +38,47 @@ export function createNodesAndSetNodesData(inputData: any[], onSelectedCallback:
 
     let tmpNode: FabricObject;
 
-    switch (node.shape) {
-      case "rectangle":
-        tmpNode = new Rect(nodeOptions);
-        atlasixDiagram.canvas.add(tmpNode);
-        break;
-      case "triangle":
-        tmpNode = new Triangle(nodeOptions);
-        atlasixDiagram.canvas.add(tmpNode);
-        break;
-      case "circle":
-        tmpNode = new Circle(nodeOptions);
-        tmpNode.set("radius", node.width / 2);
-        atlasixDiagram.canvas.add(tmpNode);
-        break;
+    if (node.shape) {
+      switch (node.shape) {
+        case "rectangle":
+          tmpNode = new Rect(nodeOptions);
+          atlasixDiagram.canvas.add(tmpNode);
+          break;
+        case "triangle":
+          tmpNode = new Triangle(nodeOptions);
+          atlasixDiagram.canvas.add(tmpNode);
+          break;
+        case "circle":
+          tmpNode = new Circle(nodeOptions);
+          tmpNode.set("radius", node.width / 2);
+          atlasixDiagram.canvas.add(tmpNode);
+          break;
+      }
+    } else if (node.image) {
+      let tmpImg = new Image();
+      tmpImg.id = `image-${id}`;
+      tmpImg.src = node.image;
+      tmpImg.style = "display: none;"
+
+      atlasixDiagram.container.append(tmpImg);
+
+      // setting this to null to avoid "blank space" inside node, around image. Scaling forces node to be sized with the full image size
+      nodeOptions.height = null;
+      nodeOptions.width = null;
+
+      tmpNode = new FabricImage(tmpImg.id, nodeOptions);
+
+      tmpNode.scaleToHeight(node.height);
+      tmpNode.scaleToWidth(node.width);
+
+      console.log(tmpNode);
+      atlasixDiagram.canvas.add(tmpNode);
     }
-    
+
     if (node.text) {
       let tmpTextbox = new Textbox(node.text, {
         left: node.x,
-        top: node.y + node.height / 2 + 20,
+        top: node.y + node.height / 2 + 20, // TODO: we need to use instead the tmpNode.getScaledHeight() to avoid image being too close to text
         width: node.width + 40,
         fill: node.textColor ? node.textColor : "black",
         fontSize: node.textSize ? node.textSize : 25,
