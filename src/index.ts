@@ -2,6 +2,7 @@ import { createCanvas, createFabricCanvas, createNodesAndSetNodesData, createEdg
 import { createSidebar } from "./utils/sidebar";
 import { AtlasixDiagram } from "./AtlasixDiagram";
 import { canvasOnMouseDown, canvasOnMouseUp, canvasOnMouseMove, objectOnSelected, canvasOnMouseWheel, canvasOnSelectionCleared } from "./events";
+import { AtlasixInput } from "./AtlasixInput";
 
 export function initialize(atlasixContainerId: string, inputData: any) {
   let atlasixContainer = document.getElementById(atlasixContainerId);
@@ -15,10 +16,11 @@ export function initialize(atlasixContainerId: string, inputData: any) {
 
   const canvas = createFabricCanvas(atlasixContainerCanvas, inputData);
 
-  let atlasixDiagram = new AtlasixDiagram(canvas, atlasixContainer, atlasixContainerSidebar);
+  let atlasixDiagram = new AtlasixDiagram(canvas, atlasixContainer, atlasixContainerSidebar, AtlasixInput.fromJson(inputData));
 
-  createNodesAndSetNodesData(inputData, objectOnSelected, atlasixDiagram);
-  createEdgesAndSetEdgesData(inputData, objectOnSelected, atlasixDiagram);
+  console.log(atlasixDiagram);
+  createNodesAndSetNodesData(objectOnSelected, atlasixDiagram);
+  createEdgesAndSetEdgesData(objectOnSelected, atlasixDiagram);
 
   canvas.on("mouse:down", (e) => canvasOnMouseDown(e, atlasixDiagram));
   canvas.on("mouse:up", (e) => canvasOnMouseUp(atlasixDiagram));

@@ -1,5 +1,7 @@
 import { Canvas, Rect, Triangle, Circle, Textbox, Polyline, FabricObject, FabricImage } from "fabric";
 import { AtlasixDiagram } from "../AtlasixDiagram";
+import { AtlasixInput } from "../AtlasixInput";
+import { AtlasixInputNode } from "../AtlasixInputNode";
 
 export function createCanvas() {
   let canvas = document.createElement("canvas");
@@ -11,19 +13,19 @@ export function createCanvas() {
   return canvas;
 }
 
-export function createFabricCanvas(canvas: HTMLCanvasElement, inputData: any) {
+export function createFabricCanvas(canvas: HTMLCanvasElement, inputData: AtlasixInput) {
   const fabricCanvas = new Canvas(canvas, {
     defaultCursor: "grab",
     hoverCursor: "pointer",
     selection: false,
-    backgroundColor: inputData.backgroundColor ? inputData.backgroundColor : "white",
+    backgroundColor: inputData.backgroundColor,
   });
 
   return fabricCanvas;
 }
 
-export function createNodesAndSetNodesData(inputData: any[], onSelectedCallback: (e: any, atlasixDiagram: AtlasixDiagram) => void, atlasixDiagram: AtlasixDiagram) {
-  for (let [id, node] of inputData.nodes.entries()) {
+export function createNodesAndSetNodesData(onSelectedCallback: (e: any, atlasixDiagram: AtlasixDiagram) => void, atlasixDiagram: AtlasixDiagram) {
+  for (let [id, node] of atlasixDiagram.input.nodes.entries()) {
     const nodeOptions = {
       fill: node.fillColor,
       borderColor: node.borderColor,
@@ -32,8 +34,8 @@ export function createNodesAndSetNodesData(inputData: any[], onSelectedCallback:
       width: node.width,
       left: node.x,
       top: node.y,
-      data: node.data ? node.data : {},
-      id: node.id ? node.id : id.toString()
+      data: node.data,
+      id: id.toString()
     }
 
     let tmpNode: FabricObject;
@@ -55,10 +57,16 @@ export function createNodesAndSetNodesData(inputData: any[], onSelectedCallback:
           break;
       }
     } else if (node.image) {
+      console.log("ok");
+      
       let tmpImg = new Image();
       tmpImg.id = `image-${id}`;
       tmpImg.src = node.image;
       tmpImg.style = "display: none;"
+
+      tmpImg.onload = () => {
+        atlasixDiagram.canvas.requestRenderAll();
+      }
 
       atlasixDiagram.container.append(tmpImg);
 
@@ -66,12 +74,11 @@ export function createNodesAndSetNodesData(inputData: any[], onSelectedCallback:
       nodeOptions.height = null;
       nodeOptions.width = null;
 
-      tmpNode = new FabricImage(tmpImg.id, nodeOptions);
+      tmpNode = new FabricImage(tmpImg, nodeOptions);
 
       tmpNode.scaleToHeight(node.height);
       tmpNode.scaleToWidth(node.width);
 
-      console.log(tmpNode);
       atlasixDiagram.canvas.add(tmpNode);
     }
 
@@ -80,8 +87,8 @@ export function createNodesAndSetNodesData(inputData: any[], onSelectedCallback:
         left: node.x,
         top: node.y + node.height / 2 + 20, // TODO: we need to use instead the tmpNode.getScaledHeight() to avoid image being too close to text
         width: node.width + 40,
-        fill: node.textColor ? node.textColor : "black",
-        fontSize: node.textSize ? node.textSize : 25,
+        fill: node.textColor,
+        fontSize: node.textSize,
         textAlign: 'center',
         selectable: false,
         hoverCursor: "grab"
@@ -98,7 +105,7 @@ export function createNodesAndSetNodesData(inputData: any[], onSelectedCallback:
   });
 }
 
-function getEdgePointsBetweenRectangles(sourceNode, targetNode) {
+function getEdgePointsBetweenRectangles(sourceNode: AtlasixInputNode, targetNode: AtlasixInputNode) {
   const sourceCenterX = sourceNode.x;
   const sourceCenterY = sourceNode.y;
   const targetCenterX = targetNode.x;
@@ -136,10 +143,10 @@ function getEdgePointsBetweenRectangles(sourceNode, targetNode) {
   };
 }
 
-export function createEdgesAndSetEdgesData(inputData: any[], onSelectedCallback: (e: any, atlasixDiagram: AtlasixDiagram) => void, atlasixDiagram: AtlasixDiagram) {
-  for (let [id, edge] of inputData.edges.entries()) {
-    const sourceNode = inputData.nodes.find(node => node.id === edge.source);
-    const targetNode = inputData.nodes.find(node => node.id === edge.target);
+export function createEdgesAndSetEdgesData(onSelectedCallback: (e: any, atlasixDiagram: AtlasixDiagram) => void, atlasixDiagram: AtlasixDiagram) {
+  for (let [id, edge] of atlasixDiagram.input.edges.entries()) {
+    const sourceNode = atlasixDiagram.input.nodes.find(node => node.id === edge.source);
+    const targetNode = atlasixDiagram.input.nodes.find(node => node.id === edge.target);
 
     const { source, target } = getEdgePointsBetweenRectangles(sourceNode, targetNode);
 
@@ -147,15 +154,14 @@ export function createEdgesAndSetEdgesData(inputData: any[], onSelectedCallback:
         { x: source.x, y: source.y },
         { x: target.x, y: target.y },
       ], {
-        stroke: edge.color ? edge.color : "black",
-        strokeWidth: edge.width ? edge.width : 2,
-        borderColor: edge.borderColor ? edge.borderColor : "black",
+        stroke: edge.color,
+        strokeWidth: edge.width,
+        borderColor: edge.borderColor,
         hasControls: false,
         lockMovementX: true,
         lockMovementY: true,
         selectable: true,
-        id: edge.id ? edge.id : id.toString(),
-        data: edge.data? edge.data : {}
+        data: edge.data
       })
     
     tmpPolyline.on("selected", (e) => onSelectedCallback(e, atlasixDiagram));
