@@ -4,8 +4,12 @@
     <div id="atlasixDiv">
       <img src="test.png" id="test-img" style="display: none;">
     </div>
+    <br>
+    <br>
+    <br>
+    <div id="atlasixDivSVG"></div>
     <script type="module">
-      import { initialize } from '../src/index.ts'
+      import { initialize, initializeSVG } from '../src/index.ts'
       // import { initialize } from '../dist/index.js'
 
       let inputData = {
@@ -104,7 +108,8 @@
         ]
       }
 
-      initialize("atlasixDiv", inputData)
+      initialize("atlasixDiv", inputData);
+      initializeSVG("atlasixDivSVG", inputData);
     </script>
   </body>
 </html>
