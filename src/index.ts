@@ -2,7 +2,7 @@ import { createCanvas, createFabricCanvas, createNodesAndSetNodesData, createEdg
 import { createNodesAndSetNodesDataSVG, createEdgesAndSetEdgesDataSVG, createViewer } from "./utils/svg"
 import { createSidebar } from "./utils/sidebar";
 import { AtlasixDiagram } from "./AtlasixDiagram";
-import { canvasOnMouseDown, canvasOnMouseUp, canvasOnMouseMove, objectOnSelected, canvasOnMouseWheel, canvasOnSelectionCleared } from "./events";
+import { canvasOnMouseDown, canvasOnMouseUp, canvasOnMouseMove, objectOnSelected, canvasOnMouseWheel, canvasOnSelectionCleared, svgOnMouseDown, svgOnMouseMove, svgOnMouseUp, svgOnMouseWheel } from "./events";
 import { AtlasixInput } from "./AtlasixInput";
 
 export function initialize(atlasixContainerId: string, inputData: any) {
@@ -50,5 +50,11 @@ export function initializeSVG(atlasixContainerId: string, inputData: any) {
   createEdgesAndSetEdgesDataSVG(objectOnSelected, atlasixDiagram);
   createNodesAndSetNodesDataSVG(objectOnSelected, atlasixDiagram);
 
-    
+  let baseSvg = document.querySelector('#baseSvg');
+
+  baseSvg?.addEventListener("pointerdown", (e) => svgOnMouseDown(e, atlasixDiagram));
+  baseSvg?.addEventListener("pointerup", (e) => svgOnMouseUp(e, atlasixDiagram));
+  baseSvg?.addEventListener("pointermove", (e) => svgOnMouseMove(e, atlasixDiagram));
+  baseSvg?.addEventListener("wheel", (e) => svgOnMouseWheel(e, atlasixDiagram));
+
 }

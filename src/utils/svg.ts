@@ -2,26 +2,34 @@ import { AtlasixDiagram } from "../AtlasixDiagram";
 import { AtlasixInput } from "../AtlasixInput";
 import { AtlasixInputNode } from "../AtlasixInputNode";
 
+function updateViewport(viewport: SVGGElement) {
+  viewport.setAttribute(
+    "transform",
+    `translate(${tx} ${ty}) scale(${scale})`
+  );
+}
+
 export function createViewer() {
-    let viewer = document.createElement("div")
-    viewer.style.width = "900px";
-    viewer.style.height = "700px";
-    viewer.style.border = "solid black 1px";
+  let viewer = document.createElement("div")
+  viewer.style.width = "900px";
+  viewer.style.height = "700px";
+  viewer.style.border = "solid black 1px";
 
-    let baseSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    baseSvg.style.width = "100%";
-    baseSvg.style.height = "100%";
-    baseSvg.style.display = "block";
-    baseSvg.style.cursor = "grab";
-    baseSvg.setAttribute("viewBox", "0 0 900 700");
+  let baseSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  baseSvg.style.width = "100%";
+  baseSvg.style.height = "100%";
+  baseSvg.style.display = "block";
+  baseSvg.style.cursor = "grab";
+  baseSvg.setAttribute("viewBox", "0 0 900 700");
+  baseSvg.id = "baseSvg";
 
-    let viewport = document.createElementNS("http://www.w3.org/2000/svg", "g");
-    viewport.id = "viewport";
+  let viewport = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  viewport.id = "viewport";
 
-    baseSvg.appendChild(viewport);
-    viewer.append(baseSvg);
+  baseSvg.appendChild(viewport);
+  viewer.append(baseSvg);
 
-    return viewer;
+  return viewer;
 }
 
 export function createNodesAndSetNodesDataSVG(onSelectedCallback: (e: any, atlasixDiagram: AtlasixDiagram) => void, atlasixDiagram: AtlasixDiagram) {
