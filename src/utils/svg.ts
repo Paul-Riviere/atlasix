@@ -2,13 +2,6 @@ import { AtlasixDiagram } from "../AtlasixDiagram";
 import { AtlasixInput } from "../AtlasixInput";
 import { AtlasixInputNode } from "../AtlasixInputNode";
 
-function updateViewport(viewport: SVGGElement) {
-  viewport.setAttribute(
-    "transform",
-    `translate(${tx} ${ty}) scale(${scale})`
-  );
-}
-
 export function createViewer() {
   let viewer = document.createElement("div")
   viewer.style.width = "900px";
