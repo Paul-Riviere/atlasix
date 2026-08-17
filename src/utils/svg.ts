@@ -28,65 +28,68 @@ export function createViewer() {
 export function createNodesAndSetNodesDataSVG(onSelectedCallback: (e: any, atlasixDiagram: AtlasixDiagram) => void, atlasixDiagram: AtlasixDiagram) {
   for (let [id, node] of atlasixDiagram.input.nodes.entries()) {
     if (node.shape) {
+      let tmpNode;
       switch (node.shape) {
         case "rectangle":
-          const tmpRect = document.createElementNS(
+          tmpNode = document.createElementNS(
             "http://www.w3.org/2000/svg",
             "rect"
           );
-          tmpRect.setAttribute("x", node.x.toString());
-          tmpRect.setAttribute("y", node.y.toString());
-          tmpRect.setAttribute("width", node.width.toString());
-          tmpRect.setAttribute("height", node.height.toString());
-          tmpRect.setAttribute("fill", node.fillColor);
-          tmpRect.setAttribute("stroke", node.borderColor);
-          tmpRect.setAttribute("stroke-width", "3");
+          tmpNode.setAttribute("x", node.x.toString());
+          tmpNode.setAttribute("y", node.y.toString());
+          tmpNode.setAttribute("width", node.width.toString());
+          tmpNode.setAttribute("height", node.height.toString());
+          tmpNode.setAttribute("fill", node.fillColor);
+          tmpNode.setAttribute("stroke", node.borderColor);
+          tmpNode.setAttribute("stroke-width", "3");
 
-          tmpRect.onclick = (e) => {
-            console.log(tmpRect);
-          }
-
-          document.querySelector('#viewport')?.append(tmpRect);
           break;
         case "triangle":
-          const tmpTriangle = document.createElementNS(
+          tmpNode = document.createElementNS(
             "http://www.w3.org/2000/svg",
             "polygon"
           );
-          tmpTriangle.setAttribute("points", `${node.x} ${node.y + node.height}, ${node.x + node.width} ${node.y + node.height}, ${node.x + node.width / 2} ${node.y}`);
-          tmpTriangle.setAttribute("x", node.x.toString());
-          tmpTriangle.setAttribute("y", node.y.toString());
-          tmpTriangle.setAttribute("fill", node.fillColor);
-          tmpTriangle.setAttribute("stroke", node.borderColor);
-          tmpTriangle.setAttribute("stroke-width", "3");
-
-          tmpTriangle.onclick = (e) => {
-            console.log(e);
-          }
-
-          document.querySelector('#viewport')?.append(tmpTriangle);
-          
+          tmpNode.setAttribute("points", `${node.x} ${node.y + node.height}, ${node.x + node.width} ${node.y + node.height}, ${node.x + node.width / 2} ${node.y}`);
+          tmpNode.setAttribute("x", node.x.toString());
+          tmpNode.setAttribute("y", node.y.toString());
+          tmpNode.setAttribute("fill", node.fillColor);
+          tmpNode.setAttribute("stroke", node.borderColor);
+          tmpNode.setAttribute("stroke-width", "3");
+    
           break;
         case "circle":
-          const tmpCircle = document.createElementNS(
+          tmpNode = document.createElementNS(
             "http://www.w3.org/2000/svg",
             "circle"
           );
-          tmpCircle.setAttribute("cx", (node.x + node.width / 2).toString());
-          tmpCircle.setAttribute("cy", (node.y + node.width / 2).toString());
-          tmpCircle.setAttribute("r", (node.width / 2).toString());
-          tmpCircle.setAttribute("fill", node.fillColor);
-          tmpCircle.setAttribute("stroke", node.borderColor);
-          tmpCircle.setAttribute("stroke-width", "3");
+          tmpNode.setAttribute("cx", (node.x + node.width / 2).toString());
+          tmpNode.setAttribute("cy", (node.y + node.width / 2).toString());
+          tmpNode.setAttribute("r", (node.width / 2).toString());
+          tmpNode.setAttribute("fill", node.fillColor);
+          tmpNode.setAttribute("stroke", node.borderColor);
+          tmpNode.setAttribute("stroke-width", "3");
 
-          tmpCircle.onclick = (e) => {
-            console.log(e);
-          }
-
-          document.querySelector('#viewport')?.append(tmpCircle);
-          
           break;
       }
+
+      tmpNode.onmousedown = (e) => {
+        console.log("Node clicked:", node);
+      }
+
+      tmpNode.onmouseover = (e) => {
+        let baseSvg = document.querySelector('#baseSvg');
+        baseSvg.style.cursor = "pointer";
+      }
+
+      tmpNode.onmouseout = (e) => {
+        if (!atlasixDiagram.isPanning) {
+          let baseSvg = document.querySelector('#baseSvg');
+          baseSvg.style.cursor = "grab";
+        }
+      }
+
+      tmpNode.setAttribute("id", node.id ? node.id : `atlasix-node-${node.id.toString()}`);
+      document.querySelector('#viewport')?.append(tmpNode);
     } else if (node.image) {
       const tmpImage = document.createElementNS(
         "http://www.w3.org/2000/svg",
@@ -104,6 +107,7 @@ export function createNodesAndSetNodesDataSVG(onSelectedCallback: (e: any, atlas
         console.log(e);
       }
 
+      tmpImage.setAttribute("id", node.id ? node.id : `atlasix-image-${node.id.toString()}`);
       document.querySelector('#viewport')?.append(tmpImage);
     }
 
@@ -136,8 +140,6 @@ export function createEdgesAndSetEdgesDataSVG(onSelectedCallback: (e: any, atlas
     const sourceNode = atlasixDiagram.input.nodes.find(node => node.id === edge.source);
     const targetNode = atlasixDiagram.input.nodes.find(node => node.id === edge.target);
 
-    // const { source, target } = getEdgePointsBetweenRectangles(sourceNode, targetNode);
-
     const tmpEdge = document.createElementNS(
       "http://www.w3.org/2000/svg",
       "line"
@@ -149,9 +151,10 @@ export function createEdgesAndSetEdgesDataSVG(onSelectedCallback: (e: any, atlas
     tmpEdge.setAttribute("stroke", edge.color);
 
     tmpEdge.onclick = (e) => {
-        console.log(e);
-      }
+      console.log(e);
+    }
 
+    tmpEdge.setAttribute("id", `atlasix-edge-${id.toString()}`);
     document.querySelector('#viewport')?.append(tmpEdge);
   }
 }

@@ -111,3 +111,8 @@ export function svgOnMouseWheel(e, atlasixDiagram: AtlasixDiagram) {
   );
 }
 
+export function svgElementOnMouseUp(element: AtlasixObject, atlasixDiagram: AtlasixDiagram) {
+  console.log(`${element.id} clicked`);
+  
+  document.getElementById(element.id)?.setAttribute("stroke", "green");
+}
