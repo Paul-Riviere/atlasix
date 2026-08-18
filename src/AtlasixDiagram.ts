@@ -1,5 +1,6 @@
 import { Canvas } from "fabric";
 import { AtlasixInput } from "./AtlasixInput";
+import { AtlasixSvgObject } from "./AtlasixSvgObject";
 
 export class AtlasixDiagram {
   canvas: Canvas;
@@ -7,6 +8,9 @@ export class AtlasixDiagram {
   sidebar: HTMLDivElement;
 
   input: AtlasixInput;
+
+  elements: Map<string, AtlasixSvgObject> = new Map();
+  selectedElement: AtlasixSvgObject | undefined;
 
   isPanning: boolean = false;
   lastMouse = { x: 0, y: 0 };

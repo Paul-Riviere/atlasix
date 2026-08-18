@@ -1,6 +1,7 @@
 import {AtlasixDiagram} from "./AtlasixDiagram";
 import {TPointerEvent, TPointerEventInfo, TEvent} from "fabric";
 import { AtlasixObject } from "./AtlasixObject";
+import { AtlasixSvgObject } from "./AtlasixSvgObject";
 
 export function canvasOnMouseDown(e, atlasixDiagram: AtlasixDiagram) {
   atlasixDiagram.isPanning = true;
@@ -56,6 +57,8 @@ export function svgOnMouseDown(e, atlasixDiagram: AtlasixDiagram) {
   let baseSvg = document.querySelector('#baseSvg');
   baseSvg.setPointerCapture(e.pointerId);
   baseSvg.style.cursor = "grabbing";
+
+  unselectElement(atlasixDiagram);
 }
 
 export function svgOnMouseUp(e, atlasixDiagram: AtlasixDiagram) {
@@ -111,8 +114,37 @@ export function svgOnMouseWheel(e, atlasixDiagram: AtlasixDiagram) {
   );
 }
 
-export function svgElementOnMouseUp(element: AtlasixObject, atlasixDiagram: AtlasixDiagram) {
-  console.log(`${element.id} clicked`);
+export function svgElementOnMouseDown(element: AtlasixSvgObject, atlasixDiagram: AtlasixDiagram) {
+  unselectElement(atlasixDiagram);
   
-  document.getElementById(element.id)?.setAttribute("stroke", "green");
+  atlasixDiagram.selectedElement = element;
+
+  selectElement(atlasixDiagram);
+  
+  if (element.svgElement.nodeName === "image") {
+    element.svgElement.style.outline = `3px solid ${element.input.borderColor}`;
+  } else {
+    document.getElementById(atlasixDiagram.selectedElement.id)?.setAttribute("stroke", element.input.borderColor);
+  }
+}
+
+function unselectElement(atlasixDiagram: AtlasixDiagram){
+  // Deselect the previously selected element
+  if (atlasixDiagram.selectedElement != undefined) {
+    if (atlasixDiagram.selectedElement.svgElement.nodeName === "image") {
+      atlasixDiagram.selectedElement.svgElement.style.outline = "none";
+    }
+    document.getElementById(atlasixDiagram.selectedElement.id)?.setAttribute("stroke", "none");
+
+    atlasixDiagram.sidebar.style.visibility = "hidden";
+  }
+}
+
+function selectElement(atlasixDiagram: AtlasixDiagram){
+  atlasixDiagram.sidebar.innerHTML = "";
+  for (const key of Object.keys(atlasixDiagram.selectedElement?.data)) {
+    atlasixDiagram.sidebar.innerHTML += `<strong>${key}:</strong> ${atlasixDiagram.selectedElement?.data[key]}<br>`;
+  }
+
+  atlasixDiagram.sidebar.style.visibility = "visible";
 }

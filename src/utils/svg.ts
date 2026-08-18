@@ -1,8 +1,9 @@
 import { AtlasixDiagram } from "../AtlasixDiagram";
 import { AtlasixInput } from "../AtlasixInput";
 import { AtlasixInputNode } from "../AtlasixInputNode";
+import { AtlasixSvgObject } from "../AtlasixSvgObject";
 
-export function createViewer() {
+export function createViewer(inputData: AtlasixInput) {
   let viewer = document.createElement("div")
   viewer.style.width = "900px";
   viewer.style.height = "700px";
@@ -13,6 +14,7 @@ export function createViewer() {
   baseSvg.style.height = "100%";
   baseSvg.style.display = "block";
   baseSvg.style.cursor = "grab";
+  baseSvg.style.backgroundColor = inputData.backgroundColor;
   baseSvg.setAttribute("viewBox", "0 0 900 700");
   baseSvg.id = "baseSvg";
 
@@ -25,7 +27,7 @@ export function createViewer() {
   return viewer;
 }
 
-export function createNodesAndSetNodesDataSVG(onSelectedCallback: (e: any, atlasixDiagram: AtlasixDiagram) => void, atlasixDiagram: AtlasixDiagram) {
+export function createNodesAndSetNodesDataSVG(onSelectedCallback: (e: AtlasixSvgObject, atlasixDiagram: AtlasixDiagram) => void, atlasixDiagram: AtlasixDiagram) {
   for (let [id, node] of atlasixDiagram.input.nodes.entries()) {
     if (node.shape) {
       let tmpNode;
@@ -40,7 +42,6 @@ export function createNodesAndSetNodesDataSVG(onSelectedCallback: (e: any, atlas
           tmpNode.setAttribute("width", node.width.toString());
           tmpNode.setAttribute("height", node.height.toString());
           tmpNode.setAttribute("fill", node.fillColor);
-          tmpNode.setAttribute("stroke", node.borderColor);
           tmpNode.setAttribute("stroke-width", "3");
 
           break;
@@ -53,7 +54,6 @@ export function createNodesAndSetNodesDataSVG(onSelectedCallback: (e: any, atlas
           tmpNode.setAttribute("x", node.x.toString());
           tmpNode.setAttribute("y", node.y.toString());
           tmpNode.setAttribute("fill", node.fillColor);
-          tmpNode.setAttribute("stroke", node.borderColor);
           tmpNode.setAttribute("stroke-width", "3");
     
           break;
@@ -66,14 +66,16 @@ export function createNodesAndSetNodesDataSVG(onSelectedCallback: (e: any, atlas
           tmpNode.setAttribute("cy", (node.y + node.width / 2).toString());
           tmpNode.setAttribute("r", (node.width / 2).toString());
           tmpNode.setAttribute("fill", node.fillColor);
-          tmpNode.setAttribute("stroke", node.borderColor);
           tmpNode.setAttribute("stroke-width", "3");
 
           break;
       }
 
+      let tmpSvgObject = new AtlasixSvgObject(node.id ? node.id : `atlasix-node-${node.id.toString()}`, node.data, tmpNode, node);
+      atlasixDiagram.elements.set(tmpSvgObject.id, tmpSvgObject);
+
       tmpNode.onmousedown = (e) => {
-        console.log("Node clicked:", node);
+        onSelectedCallback(tmpSvgObject, atlasixDiagram);
       }
 
       tmpNode.onmouseover = (e) => {
@@ -88,7 +90,7 @@ export function createNodesAndSetNodesDataSVG(onSelectedCallback: (e: any, atlas
         }
       }
 
-      tmpNode.setAttribute("id", node.id ? node.id : `atlasix-node-${node.id.toString()}`);
+      tmpNode.setAttribute("id", tmpSvgObject.id);
       document.querySelector('#viewport')?.append(tmpNode);
     } else if (node.image) {
       const tmpImage = document.createElementNS(
@@ -103,11 +105,26 @@ export function createNodesAndSetNodesDataSVG(onSelectedCallback: (e: any, atlas
       tmpImage.setAttribute("stroke", node.borderColor);
       tmpImage.setAttribute("stroke-width", "3");
 
-      tmpImage.onclick = (e) => {
-        console.log(e);
+      tmpImage.onmousedown = (e) => {
+        onSelectedCallback(tmpSvgObject, atlasixDiagram);
       }
 
-      tmpImage.setAttribute("id", node.id ? node.id : `atlasix-image-${node.id.toString()}`);
+      tmpImage.onmouseover = (e) => {
+        let baseSvg = document.querySelector('#baseSvg');
+        baseSvg.style.cursor = "pointer";
+      }
+
+      tmpImage.onmouseout = (e) => {
+        if (!atlasixDiagram.isPanning) {
+          let baseSvg = document.querySelector('#baseSvg');
+          baseSvg.style.cursor = "grab";
+        }
+      }
+
+      let tmpSvgObject = new AtlasixSvgObject(node.id ? node.id : `atlasix-node-${node.id.toString()}`, node.data, tmpImage, node);
+      atlasixDiagram.elements.set(tmpSvgObject.id, tmpSvgObject);
+      
+      tmpImage.setAttribute("id", tmpSvgObject.id);
       document.querySelector('#viewport')?.append(tmpImage);
     }
 
@@ -122,14 +139,13 @@ export function createNodesAndSetNodesDataSVG(onSelectedCallback: (e: any, atlas
       tmpText.setAttribute("height", node.height.toString());
       tmpText.setAttribute("fill", node.textColor);
       tmpText.setAttribute("font-size", node.textSize.toString());
-      tmpText.style = "text-anchor: middle"
+      tmpText.style = "text-anchor: middle; user-select: none;"
       tmpText.textContent = node.text
       
+      let tmpSvgObject = new AtlasixSvgObject(node.id ? node.id : `atlasix-node-${node.id.toString()}-text`, node.data, tmpText, node);
+      atlasixDiagram.elements.set(tmpSvgObject.id, tmpSvgObject);
       
-      tmpText.onclick = (e) => {
-        console.log(tmpText);
-      }
-      
+      tmpText.setAttribute("id", tmpSvgObject.id);
       document.querySelector('#viewport')?.append(tmpText);
     }
   }
@@ -140,21 +156,67 @@ export function createEdgesAndSetEdgesDataSVG(onSelectedCallback: (e: any, atlas
     const sourceNode = atlasixDiagram.input.nodes.find(node => node.id === edge.source);
     const targetNode = atlasixDiagram.input.nodes.find(node => node.id === edge.target);
 
+    const sourceCenterX = sourceNode.x + sourceNode.width / 2;
+    const sourceCenterY = sourceNode.y + sourceNode.height / 2;
+    const targetCenterX = targetNode.x + targetNode.width / 2;
+    const targetCenterY = targetNode.y + targetNode.height / 2;
+
     const tmpEdge = document.createElementNS(
       "http://www.w3.org/2000/svg",
       "line"
     );
-    tmpEdge.setAttribute("x1", (sourceNode.x + sourceNode.width / 2).toString());
-    tmpEdge.setAttribute("y1", (sourceNode.y + sourceNode.height / 2).toString());
-    tmpEdge.setAttribute("x2", (targetNode.x + targetNode.width / 2).toString());
-    tmpEdge.setAttribute("y2", (targetNode.y + targetNode.height / 2).toString());
+    tmpEdge.setAttribute("x1", sourceCenterX.toString());
+    tmpEdge.setAttribute("y1", sourceCenterY.toString());
+    tmpEdge.setAttribute("x2", targetCenterX.toString());
+    tmpEdge.setAttribute("y2", targetCenterY.toString());
     tmpEdge.setAttribute("stroke", edge.color);
 
-    tmpEdge.onclick = (e) => {
-      console.log(e);
+    let tmpRect = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "rect"
+    );
+
+    const dx = targetCenterX - sourceCenterX;
+    const dy = targetCenterY - sourceCenterY;
+    const lineLength = Math.hypot(dx, dy);
+    const minimumPadding = lineLength < 20 ? 10 : 0;
+    const rectWidth = Math.max(lineLength + minimumPadding * 2, 20);
+    const rectHeight = 16;
+    const midX = (sourceCenterX + targetCenterX) / 2;
+    const midY = (sourceCenterY + targetCenterY) / 2;
+    const rotation = Math.atan2(dy, dx) * 180 / Math.PI;
+
+    tmpRect.setAttribute("x", (midX - rectWidth / 2).toString());
+    tmpRect.setAttribute("y", (midY - rectHeight / 2).toString());
+    tmpRect.setAttribute("width", rectWidth.toString());
+    tmpRect.setAttribute("height", rectHeight.toString());
+    tmpRect.setAttribute("fill", "transparent");
+    tmpRect.setAttribute("transform", `rotate(${rotation} ${midX} ${midY})`);
+
+    tmpRect.onmousedown = (e) => {
+      console.log("edge clicked :", edge);
+      onSelectedCallback(tmpSvgObject, atlasixDiagram);
     }
 
+    tmpRect.onmouseover = (e) => {
+      let baseSvg = document.querySelector('#baseSvg');
+      baseSvg.style.cursor = "pointer";
+    }
+
+    tmpRect.onmouseout = (e) => {
+      if (!atlasixDiagram.isPanning) {
+        let baseSvg = document.querySelector('#baseSvg');
+        baseSvg.style.cursor = "grab";
+      }
+    }
+
+    let tmpSvgObject = new AtlasixSvgObject(`atlasix-edge-${id.toString()}-rect`, edge.data, tmpRect, edge);
+    atlasixDiagram.elements.set(tmpSvgObject.id, tmpSvgObject);
+
     tmpEdge.setAttribute("id", `atlasix-edge-${id.toString()}`);
+    tmpRect.setAttribute("id", `atlasix-edge-${id.toString()}-rect`);
+
     document.querySelector('#viewport')?.append(tmpEdge);
+    document.querySelector('#viewport')?.append(tmpRect);
   }
 }

@@ -2,7 +2,19 @@ import { createCanvas, createFabricCanvas, createNodesAndSetNodesData, createEdg
 import { createNodesAndSetNodesDataSVG, createEdgesAndSetEdgesDataSVG, createViewer } from "./utils/svg"
 import { createSidebar } from "./utils/sidebar";
 import { AtlasixDiagram } from "./AtlasixDiagram";
-import { canvasOnMouseDown, canvasOnMouseUp, canvasOnMouseMove, objectOnSelected, canvasOnMouseWheel, canvasOnSelectionCleared, svgOnMouseDown, svgOnMouseMove, svgOnMouseUp, svgOnMouseWheel } from "./events";
+import {
+  canvasOnMouseDown,
+  canvasOnMouseUp,
+  canvasOnMouseMove,
+  objectOnSelected,
+  canvasOnMouseWheel,
+  canvasOnSelectionCleared,
+  svgOnMouseDown,
+  svgOnMouseMove,
+  svgOnMouseUp,
+  svgOnMouseWheel,
+  svgElementOnMouseDown
+} from "./events";
 import { AtlasixInput } from "./AtlasixInput";
 
 export function initialize(atlasixContainerId: string, inputData: any) {
@@ -31,12 +43,12 @@ export function initialize(atlasixContainerId: string, inputData: any) {
   canvas.on("selection:cleared", (e) => canvasOnSelectionCleared(e, atlasixDiagram));
 }
 
-export function initializeSVG(atlasixContainerId: string, inputData: any) {
+export function initializeSVG(atlasixContainerId: string, inputData: AtlasixInput) {
   let atlasixContainer = document.getElementById(atlasixContainerId);
 
   atlasixContainer.style.position = "relative";
 
-  let atlasixViewer = createViewer();
+  let atlasixViewer = createViewer(inputData);
   let atlasixContainerSidebar = createSidebar();
 
   atlasixContainer.append(atlasixContainerSidebar);
@@ -47,8 +59,8 @@ export function initializeSVG(atlasixContainerId: string, inputData: any) {
   console.log(atlasixDiagram);
 
   // Order matters because we want edges to be below nodes
-  createEdgesAndSetEdgesDataSVG(objectOnSelected, atlasixDiagram);
-  createNodesAndSetNodesDataSVG(objectOnSelected, atlasixDiagram);
+  createEdgesAndSetEdgesDataSVG(svgElementOnMouseDown, atlasixDiagram);
+  createNodesAndSetNodesDataSVG(svgElementOnMouseDown, atlasixDiagram);
 
   let baseSvg = document.querySelector('#baseSvg');
 
