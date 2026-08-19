@@ -1,72 +1,41 @@
-import { createCanvas, createFabricCanvas, createNodesAndSetNodesData, createEdgesAndSetEdgesData } from "./utils/canvas";
 import { createNodesAndSetNodesDataSVG, createEdgesAndSetEdgesDataSVG, createViewer } from "./utils/svg"
 import { createSidebar } from "./utils/sidebar";
 import { AtlasixDiagram } from "./AtlasixDiagram";
 import {
-  canvasOnMouseDown,
-  canvasOnMouseUp,
-  canvasOnMouseMove,
-  objectOnSelected,
-  canvasOnMouseWheel,
-  canvasOnSelectionCleared,
   svgOnMouseDown,
   svgOnMouseMove,
   svgOnMouseUp,
   svgOnMouseWheel,
-  svgElementOnMouseDown
+  svgElementOnMouseDown,
+  svgElementOnMouseOver,
+  svgElementOnMouseOut
 } from "./events";
 import { AtlasixInput } from "./AtlasixInput";
-
-export function initialize(atlasixContainerId: string, inputData: any) {
-  let atlasixContainer = document.getElementById(atlasixContainerId);
-  atlasixContainer.style.position = "relative";
-  
-  let atlasixContainerCanvas = createCanvas();
-  let atlasixContainerSidebar = createSidebar();
-
-  atlasixContainer.append(atlasixContainerCanvas);
-  atlasixContainer.append(atlasixContainerSidebar);
-
-  const canvas = createFabricCanvas(atlasixContainerCanvas, inputData);
-
-  let atlasixDiagram = new AtlasixDiagram(canvas, atlasixContainer, atlasixContainerSidebar, AtlasixInput.fromJson(inputData));
-
-  console.log(atlasixDiagram);
-  createNodesAndSetNodesData(objectOnSelected, atlasixDiagram);
-  createEdgesAndSetEdgesData(objectOnSelected, atlasixDiagram);
-
-  canvas.on("mouse:down", (e) => canvasOnMouseDown(e, atlasixDiagram));
-  canvas.on("mouse:up", (e) => canvasOnMouseUp(atlasixDiagram));
-  canvas.on("mouse:move", (e) => canvasOnMouseMove(e, atlasixDiagram));
-  canvas.on("mouse:wheel", (e) => canvasOnMouseWheel(e, atlasixDiagram));
-
-  canvas.on("selection:cleared", (e) => canvasOnSelectionCleared(e, atlasixDiagram));
-}
+import "./styles/atlasix.css";
 
 export function initializeSVG(atlasixContainerId: string, inputData: AtlasixInput) {
   let atlasixContainer = document.getElementById(atlasixContainerId);
 
+  if (!atlasixContainer) {
+    throw new Error(`Container with id ${atlasixContainerId} not found.`);
+  }
+
   atlasixContainer.style.position = "relative";
 
-  let atlasixViewer = createViewer(inputData);
+  let {atlasixViewer, baseSvg, viewport} = createViewer(inputData);
   let atlasixContainerSidebar = createSidebar();
 
   atlasixContainer.append(atlasixContainerSidebar);
   atlasixContainer.append(atlasixViewer);
 
-  let atlasixDiagram = new AtlasixDiagram(null, atlasixContainer, atlasixContainerSidebar, AtlasixInput.fromJson(inputData));
-
-  console.log(atlasixDiagram);
+  let atlasixDiagram = new AtlasixDiagram(atlasixContainer, atlasixContainerSidebar, baseSvg, viewport, AtlasixInput.fromJson(inputData));
 
   // Order matters because we want edges to be below nodes
-  createEdgesAndSetEdgesDataSVG(svgElementOnMouseDown, atlasixDiagram);
-  createNodesAndSetNodesDataSVG(svgElementOnMouseDown, atlasixDiagram);
-
-  let baseSvg = document.querySelector('#baseSvg');
+  createEdgesAndSetEdgesDataSVG(svgElementOnMouseDown, svgElementOnMouseOver, svgElementOnMouseOut, atlasixDiagram);
+  createNodesAndSetNodesDataSVG(svgElementOnMouseDown, svgElementOnMouseOver, svgElementOnMouseOut, atlasixDiagram);
 
   baseSvg?.addEventListener("pointerdown", (e) => svgOnMouseDown(e, atlasixDiagram));
   baseSvg?.addEventListener("pointerup", (e) => svgOnMouseUp(e, atlasixDiagram));
   baseSvg?.addEventListener("pointermove", (e) => svgOnMouseMove(e, atlasixDiagram));
   baseSvg?.addEventListener("wheel", (e) => svgOnMouseWheel(e, atlasixDiagram));
-
 }

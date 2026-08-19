@@ -1,11 +1,11 @@
-import { Canvas } from "fabric";
 import { AtlasixInput } from "./AtlasixInput";
 import { AtlasixSvgObject } from "./AtlasixSvgObject";
 
 export class AtlasixDiagram {
-  canvas: Canvas;
-  container: HTMLDivElement;
+  container: HTMLElement;
   sidebar: HTMLDivElement;
+  baseSvg: SVGElement;
+  viewport: SVGElement;
 
   input: AtlasixInput;
 
@@ -20,14 +20,16 @@ export class AtlasixDiagram {
   scale = 1;
 
   constructor(
-    canvas: Canvas,
-    container: HTMLDivElement,
+    container: HTMLElement,
     sidebar: HTMLDivElement,
+    baseSvg: SVGElement,
+    viewport: SVGElement,
     input: AtlasixInput
   ) {
-    this.canvas = canvas;
     this.container = container;
     this.sidebar = sidebar;
+    this.baseSvg = baseSvg;
+    this.viewport = viewport;
     this.input = input;
   }
 }

@@ -1,16 +1,10 @@
 <!DOCTYPE html>
 <html>
   <body>
-    <div id="atlasixDiv">
-      <img src="test.png" id="test-img" style="display: none;">
-    </div>
-    <br>
-    <br>
-    <br>
     <div id="atlasixDivSVG"></div>
     <script type="module">
-      import { initialize, initializeSVG } from '../src/index.ts'
-      // import { initialize } from '../dist/index.js'
+      import { initializeSVG } from '../src/index.ts'
+      // import { initializeSVG } from '../dist/index.js'
 
       let inputData = {
         backgroundColor: "#fdf5d8",
@@ -108,7 +102,6 @@
         ]
       }
 
-      initialize("atlasixDiv", inputData);
       initializeSVG("atlasixDivSVG", inputData);
     </script>
   </body>
