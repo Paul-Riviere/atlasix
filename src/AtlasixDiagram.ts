@@ -1,25 +1,35 @@
-import { Canvas } from "fabric";
 import { AtlasixInput } from "./AtlasixInput";
+import { AtlasixSvgObject } from "./AtlasixSvgObject";
 
 export class AtlasixDiagram {
-  canvas: Canvas;
-  container: HTMLDivElement;
+  container: HTMLElement;
   sidebar: HTMLDivElement;
+  baseSvg: SVGElement;
+  viewport: SVGElement;
 
   input: AtlasixInput;
+
+  elements: Map<string, AtlasixSvgObject> = new Map();
+  selectedElement: AtlasixSvgObject | undefined;
 
   isPanning: boolean = false;
   lastMouse = { x: 0, y: 0 };
 
+  tx = 0;
+  ty = 0;
+  scale = 1;
+
   constructor(
-    canvas: Canvas,
-    container: HTMLDivElement,
+    container: HTMLElement,
     sidebar: HTMLDivElement,
+    baseSvg: SVGElement,
+    viewport: SVGElement,
     input: AtlasixInput
   ) {
-    this.canvas = canvas;
     this.container = container;
     this.sidebar = sidebar;
+    this.baseSvg = baseSvg;
+    this.viewport = viewport;
     this.input = input;
   }
 }
