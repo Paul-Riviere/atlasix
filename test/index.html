@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Atlasix test page</title>
+    <!-- <link rel="stylesheet" href="../dist/atlasix.css" /> -->
+  </head>
   <body>
     <div id="atlasixDivSVG"></div>
     <script type="module">
-      import { initializeSVG } from '../src/index.ts'
-      // import { initializeSVG } from '../dist/index.js'
+      // import { initializeSVG } from '../src/index.ts'
+      import { initializeSVG } from '../dist/index.js'
 
       let inputData = {
         backgroundColor: "#fdf5d8",
+        width: 500,
+        height: 500,
         nodes: [
           {
             id: "node1",

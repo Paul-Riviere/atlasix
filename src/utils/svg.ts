@@ -5,11 +5,14 @@ import { AtlasixSvgObject } from "../AtlasixSvgObject";
 export function createViewer(inputData: AtlasixInput) {
   let atlasixViewer = document.createElement("div")
   atlasixViewer.classList.add("atlasix-viewer");
+  atlasixViewer.style.width = "100%";
+  atlasixViewer.style.height = "100%";
 
   let baseSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   baseSvg.classList.add("atlasix-base-svg");
   baseSvg.style.backgroundColor = inputData.backgroundColor;
-  baseSvg.setAttribute("viewBox", "0 0 900 700");
+  baseSvg.setAttribute("width", "100%");
+  baseSvg.setAttribute("height", "100%");
   baseSvg.id = "baseSvg";
 
   let viewport = document.createElementNS("http://www.w3.org/2000/svg", "g");
@@ -17,6 +20,14 @@ export function createViewer(inputData: AtlasixInput) {
 
   baseSvg.appendChild(viewport);
   atlasixViewer.append(baseSvg);
+
+  window.onresize = () => {
+    baseSvg.setAttribute("viewBox", `0 0 ${inputData.width ?? baseSvg.clientWidth} ${inputData.height ?? baseSvg.clientHeight}`);
+  }
+  
+  window.onload = () => {
+    baseSvg.setAttribute("viewBox", `0 0 ${inputData.width ?? baseSvg.clientWidth} ${inputData.height ?? baseSvg.clientHeight}`);
+  }
 
   return {atlasixViewer, baseSvg, viewport};
 }
