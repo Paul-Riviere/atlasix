@@ -1,0 +1,15 @@
+[project]
+site_name = "Atlasix Documentation"
+site_description = "Create interactive web schemas as code with Atlasix."
+site_url = "https://paul-riviere.github.io/atlasix/"
+language = "en"
+
+[[project.theme.palette]]
+scheme = "default"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+scheme = "slate"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to light mode"

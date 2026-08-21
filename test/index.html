@@ -1,115 +1,63 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8" />
-    <title>Atlasix test page</title>
-    <!-- <link rel="stylesheet" href="../dist/atlasix.css" /> -->
+    <!-- <link rel="stylesheet" href="https://github.com/Paul-Riviere/atlasix/releases/download/v1.0.0/atlasix.css" /> -->
   </head>
   <body>
-    <div id="atlasixDivSVG"></div>
+    <div id="atlasixDiv"></div>
     <script type="module">
       import { initializeSVG } from '../src/index.ts'
-      // import { initializeSVG } from '../dist/index.js'
-
       let inputData = {
         backgroundColor: "#fdf5d8",
         width: 500,
         height: 500,
         nodes: [
-          {
-            id: "node1",
-            text: "test text",
-            textColor: "blue",
-            textSize: 15,
-            fillColor: "blue",
-            borderColor: "red",
-            shape: "rectangle",
-            width: 100,
-            height: 100,
-            x: 50,
-            y: 50,
-            data: {
-              nodeName: "node name 1",
-              myDataSpecificToNode1: "myNode1DataValue"
-            }
-          },
-          {
-            id: "node2",
-            text: "test text 2",
-            fillColor: "yellow",
-            borderColor: "green",
-            shape: "triangle",
-            width: 150,
-            height: 150,
-            x: 200,
-            y: 200,
-            data: {
-              nodeName: "node name 2"
-            }
-          },
-          {
-            id: "node3",
-            text: "test text 3 circle",
-            fillColor: "pink",
-            borderColor: "white",
-            shape: "circle",
-            width: 170,
-            height: 170,
-            x: 430,
-            y: 120,
-            data: {
-              nodeName: "node name 3"
-            }
-          },
-          {
-            id: "node-image-1",
-            text: "test node 1 with image",
-            image: "idefix.png",
-            width: 170,
-            height: 170,
-            x: 730,
-            y: 120,
-            data: {
-              nodeName: "node-image-1 name"
-            }
-          }
+            {
+                id: "node1",
+                text: "test text",
+                textColor: "blue",
+                textSize: 15,
+                fillColor: "blue",
+                borderColor: "red",
+                shape: "rectangle",
+                width: 100,
+                height: 100,
+                x: 50,
+                y: 50,
+                data: {
+                    nodeName: "node name 1",
+                    myDataSpecificToNode1: "myNode1DataValue"
+                }
+            },
+            {
+                id: "node2",
+                text: "test text 2",
+                fillColor: "yellow",
+                borderColor: "green",
+                shape: "triangle",
+                width: 150,
+                height: 150,
+                x: 200,
+                y: 200,
+                data: {
+                    nodeName: "node name 2"
+                }
+            },
         ],
         edges: [
-          {
-            source: "node2",
-            target: "node3",
-            color: "orange",
-            width: 3,
-            borderColor: "purple",
-            data: {
-              edgeName: "edge name 1"
+            {
+                source: "node1",
+                target: "node2",
+                color: "orange",
+                width: 3,
+                borderColor: "purple",
+                data: {
+                    edgeName: "edge name 1"
+                }
             }
-          },
-          {
-            source: "node1",
-            target: "node3",
-            color: "black",
-            width: 3,
-            borderColor: "black",
-            data: {
-              mySuperDataEdge: "edge data value",
-              "My awesome key": "my awesome value"
-            }
-          },
-          {
-            source: "node3",
-            target: "node-image-1",
-            color: "black",
-            width: 3,
-            borderColor: "black",
-            data: {
-              myDataEdge: "image edge data value",
-            }
-          }
         ]
-      }
-
-      initializeSVG("atlasixDivSVG", inputData);
+    }
+    initializeSVG("atlasixDiv", inputData);
     </script>
   </body>
 </html>

@@ -1,19 +1,45 @@
 [tools]
 node = "25"
+python = "3.12"
+uv = "0.11.21"
 
 [settings]
 experimental = true
+python.uv_venv_auto = "create|source"
+
+[env]
+_.python.venv = { path = ".venv", create = true }
 
 [hooks]
-enter = """
-mise run install
-"""
+enter = { task = "install" }
 
 [tasks.install]
-description = "Install project dependencies"
+description = "Install npm dependencies"
+run = [
+    { task = "install-npm" },
+    { task = "install-python" }
+]
+
+[tasks.install-python]
+description = "Install Python dependencies"
+alias = "i"
+run = "uv venv --allow-existing && uv pip install -r requirements.txt"
+
+[tasks.install-npm]
+description = "Install npm dependencies"
 run = "npm install"
 
 [tasks.build]
 description = "Build the distributable files"
-depends = ["install"]
+depends = ["install-npm"]
 run = "npm run build"
+
+[tasks.zensical-build]
+description = "Build Zensical website"
+depends = ["install-python"]
+run = "zensical build"
+
+[tasks.zensical-serve]
+description = "Run Zensical locally"
+depends = ["install-python"]
+run = "zensical serve"
