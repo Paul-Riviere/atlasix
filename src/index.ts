@@ -21,6 +21,8 @@ export function initializeSVG(atlasixContainerId: string, inputData: AtlasixInpu
   }
 
   atlasixContainer.style.position = "relative";
+  atlasixContainer.style.height = inputData.height ? `${inputData.height}px` : "-webkit-fill-available";
+  atlasixContainer.style.width = inputData.width ? `${inputData.width}px` : "-webkit-fill-available";
 
   let {atlasixViewer, baseSvg, viewport} = createViewer(inputData);
   let atlasixContainerSidebar = createSidebar();
@@ -36,6 +38,7 @@ export function initializeSVG(atlasixContainerId: string, inputData: AtlasixInpu
 
   baseSvg?.addEventListener("pointerdown", (e) => svgOnMouseDown(e, atlasixDiagram));
   baseSvg?.addEventListener("pointerup", (e) => svgOnMouseUp(e, atlasixDiagram));
+  baseSvg?.addEventListener("pointercancel", (e) => svgOnMouseUp(e, atlasixDiagram));
   baseSvg?.addEventListener("pointermove", (e) => svgOnMouseMove(e, atlasixDiagram));
   baseSvg?.addEventListener("wheel", (e) => svgOnMouseWheel(e, atlasixDiagram));
 }
