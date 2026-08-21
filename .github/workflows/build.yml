@@ -2,8 +2,11 @@ name: Build
 
 on:
   push:
+    branches:
+      - main
   pull_request:
-  workflow_dispatch:
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -27,11 +30,7 @@ jobs:
         run: mise run build
 
       - name: Upload build artifact
-        if: >
-          github.event_name == "pull_request" &&
-          github.event.action == "closed" &&
-          github.event.pull_request.merged == true &&
-          github.event.pull_request.base.ref == "main"
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@v4
         with:
           name: atlasix-dist-${{ github.sha }}
