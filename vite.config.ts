@@ -9,7 +9,7 @@ export default defineConfig({
     lib: {
       entry: '../src/index.ts',
       formats: ['es'],
-      fileName: () => 'index.js'
+      fileName: () => 'atlasix.js'
     },
     target: 'esnext',
     minify: false

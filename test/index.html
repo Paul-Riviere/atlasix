@@ -6,10 +6,10 @@
     <!-- <link rel="stylesheet" href="../dist/atlasix.css" /> -->
   </head>
   <body>
-    <div id="atlasixDivSVG"></div>
+    <div id="atlasixDiv"></div>
     <script type="module">
       import { initializeSVG } from '../src/index.ts'
-      // import { initializeSVG } from '../dist/index.js'
+      // import { initializeSVG } from '../dist/atlasix.js'
 
       let inputData = {
         backgroundColor: "#fdf5d8",
@@ -109,7 +109,7 @@
         ]
       }
 
-      initializeSVG("atlasixDivSVG", inputData);
+      initializeSVG("atlasixDiv", inputData);
     </script>
   </body>
 </html>

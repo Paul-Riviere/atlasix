@@ -1,2 +1,14 @@
+# npm modules
 node_modules
+
+# Vite build output
 dist
+
+# Python virtual environment
+.venv
+
+# Zensical build output
+site
+
+# Doc assets builded
+docs/assets
