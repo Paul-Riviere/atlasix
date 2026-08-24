@@ -40,7 +40,7 @@ depends = ["install"]
 run = [
     { task = "build" },
     "mkdir -p docs/assets/atlasix && cp -r dist/* docs/assets/atlasix/",
-    "zensical build"
+    "zensical build --clean --strict"
 ]
 
 [tasks.zensical-serve]
