@@ -9,3 +9,6 @@ dist
 
 # Zensical build output
 site
+
+# Doc assets builded
+docs/assets

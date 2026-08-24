@@ -36,10 +36,18 @@ run = "npm run build"
 
 [tasks.zensical-build]
 description = "Build Zensical website"
-depends = ["install-python"]
-run = "zensical build"
+depends = ["install"]
+run = [
+    { task = "build" },
+    "mkdir -p docs/assets/atlasix && cp -r dist/* docs/assets/atlasix/",
+    "zensical build"
+]
 
 [tasks.zensical-serve]
 description = "Run Zensical locally"
-depends = ["install-python"]
-run = "zensical serve"
+depends = ["install"]
+run = [
+    { task = "build" },
+    "mkdir -p docs/assets/atlasix && cp -r dist/* docs/assets/atlasix/",
+    "zensical serve"
+]
