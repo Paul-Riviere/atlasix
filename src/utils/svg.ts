@@ -24,13 +24,13 @@ export function createViewer(inputData: AtlasixInput) {
   baseSvg.appendChild(viewport);
   atlasixViewer.append(baseSvg);
 
-  window.onresize = () => {
+  window.addEventListener("resize", () => {
     baseSvg.setAttribute("viewBox", `0 0 ${inputData.width ?? baseSvg.clientWidth} ${inputData.height ?? baseSvg.clientHeight}`);
-  }
+  });
   
-  window.onload = () => {
+  window.addEventListener("load", () => {
     baseSvg.setAttribute("viewBox", `0 0 ${inputData.width ?? baseSvg.clientWidth} ${inputData.height ?? baseSvg.clientHeight}`);
-  }
+  });
 
   return {atlasixViewer, baseSvg, viewport};
 }

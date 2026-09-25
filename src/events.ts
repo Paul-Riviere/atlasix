@@ -130,7 +130,7 @@ export function svgElementOnMouseDown(element: AtlasixSvgObject, atlasixDiagram:
   if (element.svgElement.nodeName === "image") {
     element.svgElement.style.outline = `3px solid ${element.input.borderColor}`;
   } else {
-    document.getElementById(atlasixDiagram.selectedElement.id)?.setAttribute("stroke", element.input.borderColor);
+    atlasixDiagram.selectedElement.svgElement.setAttribute("stroke", element.input.borderColor);
   }
 }
 
@@ -140,7 +140,7 @@ function unselectElement(atlasixDiagram: AtlasixDiagram){
     if (atlasixDiagram.selectedElement.svgElement.nodeName === "image") {
       atlasixDiagram.selectedElement.svgElement.style.outline = "none";
     }
-    document.getElementById(atlasixDiagram.selectedElement.id)?.setAttribute("stroke", "none");
+    atlasixDiagram.selectedElement.svgElement.setAttribute("stroke", "none");
 
     atlasixDiagram.sidebar.style.visibility = "hidden";
   }
