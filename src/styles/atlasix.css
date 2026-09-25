@@ -31,5 +31,6 @@
 
 .atlasix-node-text {
     text-anchor: middle;
+    pointer-events: none;
     user-select: none;
 }

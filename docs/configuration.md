@@ -54,7 +54,7 @@ Each node must be declared inside the `nodes` key, which is an array.
 
 ### `text`
 
-**Description :** Content of the text rendered below the node.
+**Description :** Content of the text rendered with the node, see [`textPosition`](#textposition).
 
 **Type :** string
 
@@ -64,7 +64,7 @@ Each node must be declared inside the `nodes` key, which is an array.
 
 ### `textColor`
 
-**Description :** Color of the text rendered below the node. Accepted values are css valid color values : 
+**Description :** Color of the node text. Accepted values are css valid color values : 
 
 - *"<css color name\>"*
 - *"rgb(x y z)"*
@@ -78,11 +78,25 @@ Each node must be declared inside the `nodes` key, which is an array.
 
 ### `textSize`
 
-**Description :** Size of the text rendered below the node.
+**Description :** Size of the node text.
 
 **Type :** number
 
 **Default value :** 25.
+
+---
+
+### `textPosition`
+
+**Description :** Position of the node text, always horizontally centered on the node. Accepted values are :
+
+- "below" : under the node.
+- "above" : over the node.
+- "inside" : in the middle of the node.
+
+**Type :** string
+
+**Default value :** "below".
 
 ---
 
