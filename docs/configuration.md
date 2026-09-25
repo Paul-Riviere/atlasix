@@ -248,6 +248,37 @@ Each edge must be declared inside the `edges` key, which is an array.
 
 ---
 
+### `style`
+
+**Description :** Line style of the edge. Dash length scales with `width`; dotted dots have a diameter of `width + 2` so thin edges stay visible. Accepted values are :
+
+- "solid"
+- "dashed"
+- "dotted"
+
+**Type :** string
+
+**Default value :** "solid".
+
+---
+
+### `animation`
+
+**Description :** Animation of the edge. Accepted values are :
+
+- "none"
+- "forward" : dashes/dots move from source to target.
+- "backward" : dashes/dots move from target to source.
+- "blink" : the edge fades in and out.
+
+A "solid" edge with "forward" or "backward" is rendered as "dashed". Animations are disabled when the user's system asks for reduced motion.
+
+**Type :** string
+
+**Default value :** "none".
+
+---
+
 ### `data`
 
 **Description :** Data of the edge. You can put every key/value you want inside this object. Every data will be rendered when you select the edge, on the sidebar.

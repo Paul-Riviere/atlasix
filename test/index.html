@@ -62,6 +62,22 @@
             }
           },
           {
+            id: "node4",
+            text: "test simple node",
+            textColor: "orange",
+            fillColor: "blue",
+            borderColor: "black",
+            shape: "rectangle",
+            width: 300,
+            height: 100,
+            x: 350,
+            y: -150,
+            data: {
+              nodeName: "node name 4",
+              myDataSpecificToNode4: "myNode4DataValue"
+            }
+          },
+          {
             id: "node-image-1",
             text: "test node 1 with image",
             image: "plumix.png",
@@ -81,6 +97,8 @@
             color: "orange",
             width: 3,
             borderColor: "purple",
+            style: "dashed",
+            animation: "forward",
             data: {
               edgeName: "edge name 1"
             }
@@ -91,6 +109,8 @@
             color: "black",
             width: 1,
             borderColor: "black",
+            style: "dotted",
+            animation: "backward",
             data: {
               mySuperDataEdge: "edge data value",
               "My awesome key": "my awesome value"
@@ -101,9 +121,19 @@
             target: "node-image-1",
             color: "black",
             width: 2,
+            animation: "blink",
             borderColor: "black",
             data: {
               myDataEdge: "image edge data value",
+            }
+          },
+          {
+            source: "node3",
+            target: "node4",
+            color: "black",
+            borderColor: "black",
+            data: {
+              myData: "My value",
             }
           }
         ]

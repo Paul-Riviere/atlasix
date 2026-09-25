@@ -2,6 +2,9 @@ import { AtlasixDiagram } from "../AtlasixDiagram";
 import { AtlasixInput } from "../AtlasixInput";
 import { AtlasixSvgObject } from "../AtlasixSvgObject";
 
+// px per second, same visual speed whatever the edge width
+const EDGE_FLOW_SPEED = 40;
+
 export function createViewer(inputData: AtlasixInput) {
   let atlasixViewer = document.createElement("div")
   atlasixViewer.classList.add("atlasix-viewer");
@@ -178,6 +181,35 @@ export function createEdgesAndSetEdgesDataSVG(
     tmpEdge.setAttribute("y2", targetCenterY.toString());
     tmpEdge.setAttribute("stroke", edge.color);
     tmpEdge.setAttribute("stroke-width", edge.width.toString());
+    const isFlow = edge.animation === "forward" || edge.animation === "backward";
+    // a flow needs gaps to be visible, so a solid edge flows as dashed
+    const style = edge.style === "solid" && isFlow ? "dashed" : edge.style;
+    let dashPeriod = 0;
+    if (style === "dashed") {
+      // dash/gap scale with width so the pattern stays readable at any thickness
+      tmpEdge.setAttribute("stroke-dasharray", `${edge.width * 4} ${edge.width * 3}`);
+      dashPeriod = edge.width * 7;
+    } else if (style === "dotted") {
+      // zero-length dashes + round caps = round dots; +2 keeps thin edges visible
+      const dotSize = edge.width + 2;
+      tmpEdge.setAttribute("stroke-width", dotSize.toString());
+      tmpEdge.setAttribute("stroke-dasharray", `0 ${dotSize * 2}`);
+      tmpEdge.setAttribute("stroke-linecap", "round");
+      dashPeriod = dotSize * 2;
+    }
+
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      if (isFlow) {
+        // shifting by exactly one dash period loops seamlessly; line starts at source, so negative offset = toward target
+        const shift = edge.animation === "forward" ? -dashPeriod : dashPeriod;
+        tmpEdge.animate(
+          [{ strokeDashoffset: "0px" }, { strokeDashoffset: `${shift}px` }],
+          { duration: dashPeriod / EDGE_FLOW_SPEED * 1000, iterations: Infinity }
+        );
+      } else if (edge.animation === "blink") {
+        tmpEdge.animate([{ opacity: 1 }, { opacity: 0.2 }], { duration: 800, iterations: Infinity, direction: "alternate" });
+      }
+    }
 
     let tmpRect = document.createElementNS(
       "http://www.w3.org/2000/svg",
