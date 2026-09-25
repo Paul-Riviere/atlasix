@@ -177,6 +177,7 @@ export function createEdgesAndSetEdgesDataSVG(
     tmpEdge.setAttribute("x2", targetCenterX.toString());
     tmpEdge.setAttribute("y2", targetCenterY.toString());
     tmpEdge.setAttribute("stroke", edge.color);
+    tmpEdge.setAttribute("stroke-width", edge.width.toString());
 
     let tmpRect = document.createElementNS(
       "http://www.w3.org/2000/svg",
@@ -188,7 +189,7 @@ export function createEdgesAndSetEdgesDataSVG(
     const lineLength = Math.hypot(dx, dy);
     const minimumPadding = lineLength < 20 ? 10 : 0;
     const rectWidth = Math.max(lineLength + minimumPadding * 2, 20);
-    const rectHeight = 16;
+    const rectHeight = edge.width + 16;
     const midX = (sourceCenterX + targetCenterX) / 2;
     const midY = (sourceCenterY + targetCenterY) / 2;
     const rotation = Math.atan2(dy, dx) * 180 / Math.PI;
