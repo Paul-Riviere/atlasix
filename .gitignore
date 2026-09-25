@@ -12,3 +12,6 @@ site
 
 # Doc assets builded
 docs/assets
+
+# Graphify output
+graphify-out
