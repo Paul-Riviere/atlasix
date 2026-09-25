@@ -139,7 +139,14 @@ export function createNodesAndSetNodesDataSVG(
         "text"
       );
       tmpText.setAttribute("x", (node.x + node.width/2).toString());
-      tmpText.setAttribute("y", (node.y + node.height + node.textSize).toString());
+      if (node.textPosition === "inside") {
+        tmpText.setAttribute("y", (node.y + node.height / 2).toString());
+        tmpText.setAttribute("dominant-baseline", "central");
+      } else if (node.textPosition === "above") {
+        tmpText.setAttribute("y", (node.y - node.textSize / 3).toString());
+      } else {
+        tmpText.setAttribute("y", (node.y + node.height + node.textSize).toString());
+      }
       tmpText.setAttribute("width", node.width.toString());
       tmpText.setAttribute("height", node.height.toString());
       tmpText.setAttribute("fill", node.textColor);

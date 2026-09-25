@@ -5,6 +5,7 @@ export class AtlasixInputNode {
     text: string;
     textColor: string;
     textSize: number;
+    textPosition: string;
     fillColor: string;
     borderColor: string;
     shape: string;
@@ -20,6 +21,7 @@ export class AtlasixInputNode {
         text: string = "",
         textColor: string = "black",
         textSize: number = 25,
+        textPosition: string = "below",
         fillColor: string,
         borderColor: string = "black",
         shape: string,
@@ -34,6 +36,7 @@ export class AtlasixInputNode {
         this.text = text;
         this.textColor = textColor;
         this.textSize = textSize;
+        this.textPosition = textPosition;
         this.fillColor = fillColor;
         this.borderColor = borderColor;
         this.shape = shape;
@@ -50,6 +53,7 @@ export class AtlasixInputNode {
         if (json.text != undefined) {assertType(json.text, "string", "text", "Node")}
         if (json.textColor != undefined) {assertType(json.textColor, "string", "textColor", "Node")}
         if (json.textSize != undefined) {assertType(json.textSize, "number", "textSize", "Node")}
+        if (json.textPosition != undefined && !["inside", "below", "above"].includes(json.textPosition)) {throw new Error(`Node textPosition must be "inside", "below" or "above".`)}
         if (json.fillColor != undefined) {assertType(json.fillColor, "string", "fillColor", "Node")}
         if (json.borderColor != undefined) {assertType(json.borderColor, "string", "borderColor", "Node")}
         if (json.shape != undefined) {assertType(json.shape, "string", "shape", "Node")}
@@ -64,6 +68,7 @@ export class AtlasixInputNode {
             json.text,
             json.textColor,
             json.textSize,
+            json.textPosition,
             json.fillColor,
             json.borderColor,
             json.shape,

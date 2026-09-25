@@ -122,7 +122,7 @@ The example uses this code :
 
 ## Advanced schema
 
-This example uses every feature : all node shapes, an image node, text styling, and every edge style and animation. Click an element to see its data.
+This example uses every feature : all node shapes, an image node, text styling and positions, every edge style and animation. Click an element to see its data.
 
 <div id="atlasixAdvancedDiv"></div>
 <script type="module">
@@ -135,6 +135,7 @@ This example uses every feature : all node shapes, an image node, text styling, 
             {
                 id: "client",
                 text: "Client",
+                textPosition: "inside",
                 textColor: "#1e3a8a",
                 textSize: 18,
                 fillColor: "#93c5fd",
@@ -151,6 +152,7 @@ This example uses every feature : all node shapes, an image node, text styling, 
             {
                 id: "api",
                 text: "API",
+                textPosition: "above",
                 textColor: "#065f46",
                 textSize: 18,
                 fillColor: "#6ee7b7",
@@ -168,6 +170,7 @@ This example uses every feature : all node shapes, an image node, text styling, 
             {
                 id: "database",
                 text: "Database",
+                textPosition: "below",
                 textSize: 16,
                 image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M10 20v60c0 7 18 12 40 12s40-5 40-12V20z' fill='%233b82f6'/%3E%3Cellipse cx='50' cy='20' rx='40' ry='12' fill='%2393c5fd'/%3E%3C/svg%3E",
                 borderColor: "#b91c1c",
@@ -183,6 +186,7 @@ This example uses every feature : all node shapes, an image node, text styling, 
             {
                 id: "cache",
                 text: "Cache",
+                textPosition: "above",
                 textSize: 16,
                 fillColor: "#fcd34d",
                 borderColor: "#92400e",
@@ -198,6 +202,7 @@ This example uses every feature : all node shapes, an image node, text styling, 
             {
                 id: "worker",
                 text: "Worker",
+                textPosition: "inside",
                 textSize: 16,
                 fillColor: "#c4b5fd",
                 borderColor: "#4c1d95",
@@ -289,6 +294,7 @@ The example uses this code :
             {
                 id: "client",
                 text: "Client",
+                textPosition: "inside",
                 textColor: "#1e3a8a",
                 textSize: 18,
                 fillColor: "#93c5fd",
@@ -305,6 +311,7 @@ The example uses this code :
             {
                 id: "api",
                 text: "API",
+                textPosition: "above",
                 textColor: "#065f46",
                 textSize: 18,
                 fillColor: "#6ee7b7",
@@ -322,6 +329,7 @@ The example uses this code :
             {
                 id: "database",
                 text: "Database",
+                textPosition: "below",
                 textSize: 16,
                 image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M10 20v60c0 7 18 12 40 12s40-5 40-12V20z' fill='%233b82f6'/%3E%3Cellipse cx='50' cy='20' rx='40' ry='12' fill='%2393c5fd'/%3E%3C/svg%3E",
                 borderColor: "#b91c1c",
@@ -337,6 +345,7 @@ The example uses this code :
             {
                 id: "cache",
                 text: "Cache",
+                textPosition: "above",
                 textSize: 16,
                 fillColor: "#fcd34d",
                 borderColor: "#92400e",
@@ -352,6 +361,7 @@ The example uses this code :
             {
                 id: "worker",
                 text: "Worker",
+                textPosition: "inside",
                 textSize: 16,
                 fillColor: "#c4b5fd",
                 borderColor: "#4c1d95",
