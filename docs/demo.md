@@ -122,7 +122,7 @@ The example uses this code :
 
 ## Advanced schema
 
-This example uses every feature : all node shapes, an image node, text styling and positions, every edge style and animation. Click an element to see its data.
+This example uses every feature : all node shapes, an image node, text styling and positions, every edge style, animation and text. Click an element to see its data.
 
 <div id="atlasixAdvancedDiv"></div>
 <script type="module">
@@ -225,6 +225,8 @@ This example uses every feature : all node shapes, an image node, text styling a
                 borderColor: "#1e3a8a",
                 style: "dashed",
                 animation: "forward",
+                text: "HTTP",
+                textColor: "#1e3a8a",
                 data: {
                     features: "dashed + forward (flows from source to target)"
                 }
@@ -236,6 +238,9 @@ This example uses every feature : all node shapes, an image node, text styling a
                 width: 4,
                 borderColor: "#b91c1c",
                 animation: "blink",
+                text: "SQL",
+                textColor: "#dc2626",
+                textSize: 18,
                 data: {
                     features: "solid + blink",
                     status: "Slow queries"
@@ -384,6 +389,8 @@ The example uses this code :
                 borderColor: "#1e3a8a",
                 style: "dashed",
                 animation: "forward",
+                text: "HTTP",
+                textColor: "#1e3a8a",
                 data: {
                     features: "dashed + forward (flows from source to target)"
                 }
@@ -395,6 +402,9 @@ The example uses this code :
                 width: 4,
                 borderColor: "#b91c1c",
                 animation: "blink",
+                text: "SQL",
+                textColor: "#dc2626",
+                textSize: 18,
                 data: {
                     features: "solid + blink",
                     status: "Slow queries"
