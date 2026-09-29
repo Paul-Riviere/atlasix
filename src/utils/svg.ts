@@ -260,5 +260,22 @@ export function createEdgesAndSetEdgesDataSVG(
 
     atlasixDiagram.viewport.append(tmpEdge);
     atlasixDiagram.viewport.append(tmpRect);
+
+    if (edge.text) {
+      const tmpText = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "text"
+      );
+      tmpText.setAttribute("x", midX.toString());
+      tmpText.setAttribute("y", midY.toString());
+      tmpText.setAttribute("fill", edge.textColor);
+      tmpText.setAttribute("font-size", edge.textSize.toString());
+      // halo in background color keeps the text readable over the line
+      tmpText.setAttribute("stroke", atlasixDiagram.input.backgroundColor);
+      tmpText.classList.add("atlasix-edge-text");
+      tmpText.textContent = edge.text;
+      tmpText.setAttribute("id", `atlasix-edge-${id.toString()}-text`);
+      atlasixDiagram.viewport.append(tmpText);
+    }
   }
 }

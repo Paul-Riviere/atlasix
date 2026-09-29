@@ -262,6 +262,40 @@ Each edge must be declared inside the `edges` key, which is an array.
 
 ---
 
+### `text`
+
+**Description :** Content of the text rendered at the middle of the edge. The text stays horizontal and gets a halo of the diagram `backgroundColor` so it stays readable over the line.
+
+**Type :** string
+
+**Default value :** "".
+
+---
+
+### `textColor`
+
+**Description :** Color of the edge text. Accepted values are css valid color values : 
+
+- *"<css color name\>"*
+- *"rgb(x y z)"*
+- *"#<hex value\>"*.
+
+**Type :** string
+
+**Default value :** "black".
+
+---
+
+### `textSize`
+
+**Description :** Size of the edge text.
+
+**Type :** number
+
+**Default value :** 15.
+
+---
+
 ### `style`
 
 **Description :** Line style of the edge. Dash length scales with `width`; dotted dots have a diameter of `width + 2` so thin edges stay visible. Accepted values are :
