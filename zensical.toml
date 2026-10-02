@@ -2,6 +2,8 @@
 site_name = "Atlasix Documentation"
 site_description = "Create interactive web schemas as code with Atlasix."
 site_url = "https://paul-riviere.github.io/atlasix/"
+repo_url = "https://github.com/Paul-Riviere/atlasix"
+repo_name = "Atlasix"
 language = "en"
 extra_css = [
   "assets/atlasix/atlasix.css",
