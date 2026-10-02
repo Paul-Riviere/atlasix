@@ -1,0 +1,7 @@
+gitignore: true
+globs: ["**/*.md"]
+ignores: [".claude/**"]
+config:
+  MD013: false # prose lines are not wrapped
+  MD024: { siblings_only: true } # same option names under different sections
+  MD033: false # inline HTML is intentional in the docs
