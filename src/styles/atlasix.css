@@ -1,48 +1,48 @@
 /* ATLASIX */
 
 .atlasix-sidebar {
-    position: absolute;
-    top: 1px;
-    left: 1px;
-    width: 20%;
-    height: stretch;
-    border-right: solid lightgrey 1px;
-    visibility: hidden;
-    padding: 10px;
-    background-color: aliceblue;
-    overflow-wrap: anywhere;
-    word-break: break-word;
+	position: absolute;
+	top: 1px;
+	left: 1px;
+	width: 20%;
+	height: stretch;
+	border-right: solid lightgrey 1px;
+	visibility: hidden;
+	padding: 10px;
+	background-color: aliceblue;
+	overflow-wrap: anywhere;
+	word-break: break-word;
 }
 
 .atlasix-viewer {
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    overflow: hidden;
-    border: solid black 1px;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	overflow: hidden;
+	border: solid black 1px;
 }
 
 .atlasix-base-svg {
-    width: 100%;
-    height: 100%;
-    display: block;
-    cursor: grab;
-    touch-action: none;
-    user-select: none;
+	width: 100%;
+	height: 100%;
+	display: block;
+	cursor: grab;
+	touch-action: none;
+	user-select: none;
 }
 
 .atlasix-node-text {
-    text-anchor: middle;
-    pointer-events: none;
-    user-select: none;
+	text-anchor: middle;
+	pointer-events: none;
+	user-select: none;
 }
 
 .atlasix-edge-text {
-    text-anchor: middle;
-    dominant-baseline: central;
-    paint-order: stroke;
-    stroke-width: 4px;
-    stroke-linejoin: round;
-    pointer-events: none;
-    user-select: none;
+	text-anchor: middle;
+	dominant-baseline: central;
+	paint-order: stroke;
+	stroke-width: 4px;
+	stroke-linejoin: round;
+	pointer-events: none;
+	user-select: none;
 }

@@ -3,6 +3,8 @@ node = "25"
 python = "3.12"
 uv = "0.11.21"
 "pipx:graphifyy" = "0.9.67"
+biome = "2.5.15"
+"npm:markdownlint-cli2" = "latest"
 
 [settings]
 experimental = true
@@ -51,4 +53,20 @@ run = [
     { task = "build" },
     "mkdir -p docs/assets/atlasix && cp -r dist/* docs/assets/atlasix/",
     "zensical serve"
+]
+
+[tasks.lint]
+description = "Lint TS, CSS, HTML, JSON and Markdown"
+depends = ["install-npm"]
+run = [
+    "npx tsc --noEmit",
+    "biome check .",
+    "markdownlint-cli2"
+]
+
+[tasks."lint:fix"]
+description = "Auto-fix lint and format issues"
+run = [
+    "biome check --write .",
+    "markdownlint-cli2 --fix"
 ]

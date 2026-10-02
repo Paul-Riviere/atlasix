@@ -1,21 +1,21 @@
-import { AtlasixInputEdge } from "./AtlasixInputEdge";
-import { AtlasixInputNode } from "./AtlasixInputNode";
+import type { AtlasixInputEdge } from "./AtlasixInputEdge";
+import type { AtlasixInputNode } from "./AtlasixInputNode";
 
 export class AtlasixSvgObject {
-    id: string;
-    data: any;
-    svgElement: SVGElement;
-    input: AtlasixInputNode | AtlasixInputEdge;
+	id: string;
+	data: Record<string, unknown>;
+	svgElement: SVGElement;
+	input: AtlasixInputNode | AtlasixInputEdge;
 
-    constructor (
-        id: string,
-        data: any,
-        svgElement: SVGElement,
-        input: AtlasixInputNode | AtlasixInputEdge
-    ) {
-        this.id = id;
-        this.data = data;
-        this.svgElement = svgElement;
-        this.input = input;
-    }
+	constructor(
+		id: string,
+		data: Record<string, unknown>,
+		svgElement: SVGElement,
+		input: AtlasixInputNode | AtlasixInputEdge,
+	) {
+		this.id = id;
+		this.data = data;
+		this.svgElement = svgElement;
+		this.input = input;
+	}
 }
