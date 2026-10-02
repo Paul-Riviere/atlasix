@@ -1,4 +1,4 @@
-import { createNodesAndSetNodesDataSVG, createEdgesAndSetEdgesDataSVG, createViewer } from "./utils/svg"
+import { createNodesAndSetNodesDataSVG, createEdgesAndSetEdgesDataSVG, createViewer, setViewBox } from "./utils/svg"
 import { createSidebar } from "./utils/sidebar";
 import { AtlasixDiagram } from "./AtlasixDiagram";
 import {
@@ -29,6 +29,8 @@ export function initializeSVG(atlasixContainerId: string, inputData: AtlasixInpu
 
   atlasixContainer.append(atlasixContainerSidebar);
   atlasixContainer.append(atlasixViewer);
+  // Needed when initialized after window load (e.g. re-render), load event won't fire again
+  setViewBox(baseSvg, inputData);
 
   let atlasixDiagram = new AtlasixDiagram(atlasixContainer, atlasixContainerSidebar, baseSvg, viewport, AtlasixInput.fromJson(inputData));
 

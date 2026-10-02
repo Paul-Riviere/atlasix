@@ -5,6 +5,10 @@ import { AtlasixSvgObject } from "../AtlasixSvgObject";
 // px per second, same visual speed whatever the edge width
 const EDGE_FLOW_SPEED = 40;
 
+export function setViewBox(baseSvg: SVGSVGElement, inputData: AtlasixInput) {
+  baseSvg.setAttribute("viewBox", `0 0 ${inputData.width ?? baseSvg.clientWidth} ${inputData.height ?? baseSvg.clientHeight}`);
+}
+
 export function createViewer(inputData: AtlasixInput) {
   let atlasixViewer = document.createElement("div")
   atlasixViewer.classList.add("atlasix-viewer");
@@ -24,13 +28,8 @@ export function createViewer(inputData: AtlasixInput) {
   baseSvg.appendChild(viewport);
   atlasixViewer.append(baseSvg);
 
-  window.addEventListener("resize", () => {
-    baseSvg.setAttribute("viewBox", `0 0 ${inputData.width ?? baseSvg.clientWidth} ${inputData.height ?? baseSvg.clientHeight}`);
-  });
-  
-  window.addEventListener("load", () => {
-    baseSvg.setAttribute("viewBox", `0 0 ${inputData.width ?? baseSvg.clientWidth} ${inputData.height ?? baseSvg.clientHeight}`);
-  });
+  window.addEventListener("resize", () => setViewBox(baseSvg, inputData));
+  window.addEventListener("load", () => setViewBox(baseSvg, inputData));
 
   return {atlasixViewer, baseSvg, viewport};
 }
