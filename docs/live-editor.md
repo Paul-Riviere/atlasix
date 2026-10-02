@@ -44,7 +44,7 @@ Edit the JSON below, the schema is rendered on every change.
 }</textarea>
     <div id="liveEditorError" style="color: red; font-family: monospace; white-space: pre-wrap;"></div>
     </div>
-    <div id="liveEditorDiv"></div>
+    <div id="liveEditorDiv" style="flex-shrink: 0;"></div>
 </div>
 
 <script type="module">
