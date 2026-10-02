@@ -8,7 +8,7 @@ The viewer is the entirer area where the schema is displayed.
 
 ### `backgroundColor`
 
-**Description :** Background color of the entire viewer. Accepted values are css valid color values : 
+**Description :** Background color of the entire viewer. Accepted values are css valid color values :
 
 - *"<css color name\>"*
 - *"rgb(x y z)"*
@@ -64,7 +64,7 @@ Each node must be declared inside the `nodes` key, which is an array.
 
 ### `textColor`
 
-**Description :** Color of the node text. Accepted values are css valid color values : 
+**Description :** Color of the node text. Accepted values are css valid color values :
 
 - *"<css color name\>"*
 - *"rgb(x y z)"*
@@ -102,7 +102,7 @@ Each node must be declared inside the `nodes` key, which is an array.
 
 ### `fillColor`
 
-**Description :** Inside color of the node. Accepted values are css valid color values : 
+**Description :** Inside color of the node. Accepted values are css valid color values :
 
 - *"<css color name\>"*
 - *"rgb(x y z)"*
@@ -116,7 +116,7 @@ Each node must be declared inside the `nodes` key, which is an array.
 
 ### `borderColor`
 
-**Description :** Border color of the node. The border only appears when you select the node. Accepted values are css valid color values : 
+**Description :** Border color of the node. The border only appears when you select the node. Accepted values are css valid color values :
 
 - *"<css color name\>"*
 - *"rgb(x y z)"*
@@ -131,6 +131,7 @@ Each node must be declared inside the `nodes` key, which is an array.
 ### `shape`
 
 **Description :** Shape of the node. Accepted values are :
+
 - "rectangle"
 - "triangle"
 - "circle"
@@ -203,7 +204,6 @@ Each node must be declared inside the `nodes` key, which is an array.
 
 Each edge must be declared inside the `edges` key, which is an array.
 
-
 ### `source`
 
 **Description :** Id of the source node.
@@ -226,7 +226,7 @@ Each edge must be declared inside the `edges` key, which is an array.
 
 ### `color`
 
-**Description :** Color of the edge. Accepted values are css valid color values : 
+**Description :** Color of the edge. Accepted values are css valid color values :
 
 - *"<css color name\>"*
 - *"rgb(x y z)"*
@@ -250,7 +250,7 @@ Each edge must be declared inside the `edges` key, which is an array.
 
 ### `borderColor`
 
-**Description :** Border color of box around the edge. The border only appears when you select the edge. Accepted values are css valid color values : 
+**Description :** Border color of box around the edge. The border only appears when you select the edge. Accepted values are css valid color values :
 
 - *"<css color name\>"*
 - *"rgb(x y z)"*
@@ -274,7 +274,7 @@ Each edge must be declared inside the `edges` key, which is an array.
 
 ### `textColor`
 
-**Description :** Color of the edge text. Accepted values are css valid color values : 
+**Description :** Color of the edge text. Accepted values are css valid color values :
 
 - *"<css color name\>"*
 - *"rgb(x y z)"*

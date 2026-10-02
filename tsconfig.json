@@ -1,16 +1,16 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
 
-    "strict": true,
-    "declaration": true,
-    "rootDir": "src",
-    "outDir": "dist",
+		"strict": true,
+		"declaration": true,
+		"rootDir": "src",
+		"outDir": "dist",
 
-    "esModuleInterop": true,
-    "skipLibCheck": true
-  },
-  "include": ["src"]
+		"esModuleInterop": true,
+		"skipLibCheck": true
+	},
+	"include": ["src"]
 }
